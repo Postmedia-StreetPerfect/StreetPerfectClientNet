@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>12b6e243-e1d0-497c-ad8f-09092f53c1f4</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>StreetPerfectClient</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)StreetPerfectInterface.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Client.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClientHelpers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ClientImport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OutString.cs" />
+  </ItemGroup>
+</Project>
