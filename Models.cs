@@ -27,6 +27,17 @@ namespace StreetPerfect.Models
 		public string PreferredLanguageStyle { get; set; }
 
 
+
+		/// <summary>
+		/// Users preferred language for messages and reporting.
+		/// 
+		/// UserLanguage= [E]nglish, [F]rench
+		/// </summary>
+		[DataMember]
+		public string UserLanguage { get; set; }
+
+
+
 		/// <summary>
 		/// Controls what type of message codes are returned with the correction messages.
 		/// 
