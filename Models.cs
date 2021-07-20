@@ -83,6 +83,7 @@ namespace StreetPerfect.Models
 		/// Error Tolerance Indicator
 		/// - Determines how “closely” an input address must come to a Canada Post address to be considered a match.
 		/// - The value indicates the number of components that may be in variance.
+		/// - Allowed values; 0 - 4 
 		/// </summary>
 		public int? ErrorTolerance { get; set; }
 

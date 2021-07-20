@@ -898,6 +898,16 @@ namespace StreetPerfect
 				{
 					buf.AppendFormat("PrintTryMessages={0};", (bool)options.PrintTryMessages ? 'Y' : 'N');
 				}
+
+				if (options.MaximumTryMessages != null)
+				{
+					buf.AppendFormat("MaximumTryMessages={0};", options.MaximumTryMessages);
+				}
+				if (options.ErrorTolerance != null)
+				{
+					buf.AppendFormat("ErrorTolerance={0};", options.ErrorTolerance);
+				}
+				
 			}
 
 			return buf.ToString();
