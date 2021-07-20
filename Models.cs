@@ -71,6 +71,24 @@ namespace StreetPerfect.Models
 
 
 		/// <summary>
+		/// Maximum Tries Flag
+		/// - The maximum number of possible alternate addresses to print if unable to correct.
+		/// - These alternate addresses will appear on the exception report.
+		/// </summary>
+		public int? MaximumTryMessages { get; set; }
+
+
+
+		/// <summary>
+		/// Error Tolerance Indicator
+		/// - Determines how “closely” an input address must come to a Canada Post address to be considered a match.
+		/// - The value indicates the number of components that may be in variance.
+		/// </summary>
+		public int? ErrorTolerance { get; set; }
+
+
+
+		/// <summary>
 		/// Defaults to 'SUITE'
 		/// 
 		/// | English Abbr. | French Abbr. | English Full Name | French Full Name |
@@ -390,7 +408,7 @@ namespace StreetPerfect.Models
 		/// </summary>
 
 		[DataMember]
-		public string st_adr_seq_cde { get; set; }
+		public int? st_adr_seq_cde { get; set; }
 
 		/// <summary>
 		/// Street Address to Number

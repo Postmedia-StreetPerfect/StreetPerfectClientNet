@@ -57,10 +57,23 @@ namespace StreetPerfect.Helpers
 					ret.Add(sx.Trim());
 			}
 			if (ret.Count > 0)
-				ret.RemoveAt(0);
+			{
+				if (IsDigitsOnly(ret[0]))
+					ret.RemoveAt(0);
+			}
 			return ret;
 		}
 
+		protected bool IsDigitsOnly(string str)
+		{
+			foreach (char c in str.AsSpan())
+			{
+				if (c < '0' || c > '9')
+					return false;
+			}
+
+			return true;
+		}
 
 		public List<caAddress> ToCaAddrList(int expected_cnt, bool debug = false)
 		{

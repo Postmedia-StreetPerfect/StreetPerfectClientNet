@@ -854,6 +854,10 @@ namespace StreetPerfect
 				{
 					buf.AppendFormat("PreferredLanguageStyle={0};", options.PreferredLanguageStyle.ToUpper()[0]);
 				}
+				if (!String.IsNullOrWhiteSpace(options.UserLanguage))
+				{
+					buf.AppendFormat("UserLanguage={0};", options.UserLanguage.ToUpper()[0]);
+				}
 				if (!String.IsNullOrWhiteSpace(options.OptimizeAddress) && options.OptimizeAddress.Length == 1)
 				{
 					buf.AppendFormat("OptimizeAddress={0};", options.OptimizeAddress.ToUpper()[0]);
