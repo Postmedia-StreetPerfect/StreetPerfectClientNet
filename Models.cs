@@ -41,14 +41,14 @@ namespace StreetPerfect.Models
 		/// <summary>
 		/// Controls what type of message codes are returned with the correction messages.
 		/// 
-		/// Defaults to 'false'
+		/// Defaults to 'N'
 		/// 
-		/// 'True' - returns a 3 digit prefix to address correction messages for
+		/// 'Y' - returns a 3 digit prefix to address correction messages for
 		/// programmatic use. These may be used to provide a filtering
 		/// capability. Message codes can be found in the DocumentFiles
 		/// installation folder.
 		/// 
-		/// 'False' - returns a 3 character prefix to address correction messages
+		/// 'N' - returns a 3 character prefix to address correction messages
 		/// indicating message class. For Canadian product only, these
 		/// prefixes are:
 		/// 
@@ -63,11 +63,22 @@ namespace StreetPerfect.Models
 		/// TRY - Try message - engine has identified one or more possibilities as a potential correction but there was insufficient data or ambiguous results making identification of a correction unreliable.
 		/// 
 		/// ERR - Error message
+		/// | Value | Print Message Class | Return Message Class | Print Message Numbers | Return Message Numbers |
+		/// |-------|---------------------|----------------------|-----------------------|------------------------|
+		/// |  N/0  |         N           |           N          |           N           |            N           | 
+		/// |  Y/1  |         N           |           N          |           Y           |            N           | 
+		/// |    2  |         N           |           N          |           N           |            Y           | 
+		/// |    3  |         N           |           N          |           Y           |            Y           | 
+		/// |    4  |         N           |           Y          |           N           |            Y           | 
+		/// |    5  |         N           |           Y          |           Y           |            Y           | 
+		/// |    6  |         Y           |           Y          |           Y           |            Y           | 
+		/// 
 		/// 
 		/// (used in Correct, Validate)
+		/// 
 		/// </summary>
 		[DataMember]
-		public bool? PrintMessageNumbers { get; set; }
+		public string PrintMessageNumbers { get; set; }
 
 
 		/// <summary>

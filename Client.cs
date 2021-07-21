@@ -886,9 +886,9 @@ namespace StreetPerfect
 				{
 					buf.AppendFormat("PrintInformationMessages={0};", (bool)options.PrintInformationMessages ? 'Y' : 'N');
 				}
-				if (options.PrintMessageNumbers != null)
+				if (!String.IsNullOrWhiteSpace(options.PrintMessageNumbers))
 				{
-					buf.AppendFormat("PrintMessageNumbers={0};", (bool)options.PrintMessageNumbers ? 'Y' : 'N');
+					buf.AppendFormat("PrintMessageNumbers={0};", options.PrintMessageNumbers);
 				}
 				if (options.PrintOptimizeMessages != null)
 				{
