@@ -484,10 +484,11 @@ namespace StreetPerfect.Models
 		[DataMember]
 		public string st_adr_nbr_sfx_frm_cde { get; set; }
 
+
 		/// <summary>
-		/// Suite from Number
-		///
-		/// Lowest value in a range of suites or apartments.
+		/// Municipality Name
+		/// 
+		/// A municipality is any village, town or city in Canada that is recognized as a valid mailing address by Canada Post.
 		/// </summary>
 
 		[DataMember]
