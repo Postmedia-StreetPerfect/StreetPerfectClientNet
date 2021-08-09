@@ -102,7 +102,7 @@ namespace StreetPerfect.Controllers
 				{
 					caQueryResponse qresp = _Client.caQuery(qreq);
 
-					List<caAddress> addr_list = caWildcardSearchAddressHelper.MakeAddressList(qresp.function_messages, _Debug);
+					List<caAddress> addr_list = caDualRecordResponseHelper.MakeAddressList(qresp.function_messages, _Debug);
 
 					// check the max_returned here
 					if (req.max_returned != null && req.max_returned > 0 && req.max_returned <= 1000)

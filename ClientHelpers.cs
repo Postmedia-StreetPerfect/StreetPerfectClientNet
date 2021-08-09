@@ -36,7 +36,7 @@ namespace StreetPerfect.Helpers
 
 	// this guy is expecting the DUAL record 133 byte (view rec) and the 233 byte record on alternating lines
 	// doesn't do much but so be it
-	public class caWildcardSearchAddressHelper : AddressHelper
+	public class caDualRecordResponseHelper : AddressHelper
 	{
 		public static List<caAddress> MakeAddressList(IEnumerable<string> sp_addr_strs, bool add_orig = false)
 		{

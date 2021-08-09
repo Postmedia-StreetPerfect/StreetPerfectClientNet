@@ -1229,6 +1229,10 @@ namespace StreetPerfect.Models
 		[DataMember]
 		public List<string> function_messages { get; set; }
 
+
+		[DataMember]
+		public List<caAddress> address_list { get; set; }
+
 		[DataMember]
 		public string status_flag { get; set; }
 

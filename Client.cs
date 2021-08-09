@@ -328,13 +328,27 @@ namespace StreetPerfect
 					PS_ARG_out_status_flag.s,
 					PS_ARG_out_status_messages.s);
 
-			return new caQueryResponse()
-			{
-				function_messages = PS_ARG_out_function_messages.ToList(),
-				status_flag = PS_ARG_out_status_flag.ToString(),
-				status_messages = PS_ARG_out_status_messages.ToString()
-			};
 
+			var resp = new caQueryResponse();
+			int resp_count = PS_ARG_out_status_messages.ToInt();
+			resp.function_messages = PS_ARG_out_function_messages.ToList();
+			resp.status_flag = PS_ARG_out_status_flag.ToString();
+			resp.status_messages = PS_ARG_out_status_messages.ToString();
+
+			switch (req.query_option){
+				case 11:
+				case 20:
+				case 21:
+				case 23:
+				case 24:
+				case 25:
+					resp.address_list = caDualRecordResponseHelper.MakeAddressList(resp.function_messages, _Debug);
+					resp.function_messages = null;
+					break;
+
+			}
+
+			return resp;
 		}
 
 		public virtual caFetchAddressResponse caFetchAddress(caFetchAddressRequest req)
