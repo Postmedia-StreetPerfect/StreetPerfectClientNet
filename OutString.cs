@@ -66,7 +66,11 @@ namespace StreetPerfect.Helpers
 
 		protected bool IsDigitsOnly(string str)
 		{
+#if NETCOREAPP
 			foreach (char c in str.AsSpan())
+#else
+			foreach (char c in str)
+#endif
 			{
 				if (c < '0' || c > '9')
 					return false;

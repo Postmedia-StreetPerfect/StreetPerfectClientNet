@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
-using System.Text.Json.Serialization;
+//using System.Text.Json.Serialization;
 
 // just street perfect models used by StreetPerfect.Client - and the site
 // models represent the input (request) and the output (response) parameters of
