@@ -417,11 +417,30 @@ namespace StreetPerfect.Models
 		/// This code identifies the sequence associated with the range of street numbers. Valid values are: 
 		/// 1. Odd 
 		/// 2. Even 
-		/// 3. Consecutive
+		/// 3. Mixed
 		/// </summary>
 
 		[DataMember]
 		public int? st_adr_seq_cde { get; set; }
+
+		public string StAdrSeqCode()
+		{
+			string code = "";
+			if (st_adr_seq_cde != null)
+			{
+				switch (st_adr_seq_cde) //static private dictionary?
+				{
+					case 1:
+						code = "Odd"; break;
+					case 2:
+						code = "Even"; break;
+					case 3:
+						code = "Mixed"; break;
+				}
+			}
+			return code;
+		}
+
 
 		/// <summary>
 		/// Street Address to Number
@@ -610,6 +629,8 @@ namespace StreetPerfect.Models
 		/// * D = Large Volume Receiver Name (PO BOX) record 
 		/// * E = Government Name (PO BOX) record 
 		/// * F = General Delivery record
+		/// * R = Road Segment record
+		/// * V = Virtual Road Segment record
 		/// </summary>
 
 		[DataMember]
