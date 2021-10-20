@@ -644,6 +644,12 @@ namespace StreetPerfect.Models
 		public string cntry_cde { get; set; }
 
 		/// <summary>
+		/// Testing
+		/// </summary>
+		[DataMember]
+		public HashSet<string> cpc_nrn_segs { get; set; }
+
+		/// <summary>
 		/// Original StreetPerfect internal record when debugging
 		/// </summary>	
 
@@ -651,7 +657,7 @@ namespace StreetPerfect.Models
 		public string orig_rec { get; set; }
 	}
 
-
+	 
 	[DataContract(Namespace =SPConst.DataNamespace)]
 	public class usAddress
 	{
