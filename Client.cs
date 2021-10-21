@@ -11,7 +11,7 @@ using StreetPerfect;
 
 #pragma warning disable 1591
 
-// the street perfect client wrapper.
+// the street perfect client wrapper for .Net (5+)
 // all parameters have been rolled into simple request and response objects
 namespace StreetPerfect
 {
