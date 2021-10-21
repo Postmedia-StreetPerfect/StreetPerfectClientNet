@@ -3,7 +3,7 @@ C# XPC Client for StreetPerfect native access
 
 The easiest way to use the C# client is to add it as a singleton service in your ConfigureServices() aspnet function.
 
-```
+```C#
 var sp_connectionString = Configuration.GetConnectionString("StreetPerfectServer");
 var sp_debug = Configuration.GetSection("AppSettings:Debug").Value == "True";
 services.AddSingleton(typeof(IStreetPerfectClient), new StreetPerfectClient(sp_connectionString, sp_debug));
@@ -11,7 +11,7 @@ services.AddSingleton(typeof(IStreetPerfectClient), new StreetPerfectClient(sp_c
 
 You can then inject the service into any controller.
 
-```
+```C#
 private readonly ILogger<HomeController> _logger;
 private readonly IStreetPerfectClient _Client;
 public HomeController(IStreetPerfectClient Client, ILogger<HomeController> logger)
@@ -23,7 +23,7 @@ public HomeController(IStreetPerfectClient Client, ILogger<HomeController> logge
 
 Then make calls to the client.
 
-```
+```C#
 public IActionResult Index()
 {
     ViewData["info"] = _Client.GetInfo();
@@ -34,7 +34,7 @@ public IActionResult Index()
  
  The client also contains abstract aspnet controllers allowing you to wire them directly into your own api.
  
-```
+```C#
 namespace YourApp.Controllers
 {
     [Route("api/my/route/query")]   // your own route
@@ -51,9 +51,9 @@ namespace YourApp.Controllers
 }
 ```
 
-Running from a console app without dependancy injection.
+Running from a console app without dependency injection.
 
-```
+```C#
 using StreetPerfect;
 using StreetPerfect.Models;
 
