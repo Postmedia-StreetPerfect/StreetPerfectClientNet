@@ -17,5 +17,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ClientImport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OutString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Test.cs" />
   </ItemGroup>
 </Project>
