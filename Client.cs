@@ -334,7 +334,7 @@ namespace StreetPerfect
 			resp.function_messages = PS_ARG_out_function_messages.ToList();
 			resp.status_flag = PS_ARG_out_status_flag.ToString();
 			resp.status_messages = PS_ARG_out_status_messages.ToString();
-
+			 
 			switch (req.query_option){
 				case 11:
 				case 20:
@@ -342,10 +342,18 @@ namespace StreetPerfect
 				case 23:
 				case 24:
 				case 25:
+				case 71:
+				case 72:
+				case 73:
+				case 74:
+				case 75:
+				case 76:
+				case 77:
+				case 78:
+				case 79:
 					resp.address_list = caDualRecordResponseHelper.MakeAddressList(resp.function_messages, _Debug);
 					resp.function_messages = null;
 					break;
-
 			}
 
 			return resp;

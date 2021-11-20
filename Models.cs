@@ -1228,7 +1228,7 @@ namespace StreetPerfect.Models
 		/// 69. (79) Simple Street Name (No civic number)
 		/// 
 		/// </summary>
-
+		 
 		[DataMember]
 		public Options options { get; set; }
 
