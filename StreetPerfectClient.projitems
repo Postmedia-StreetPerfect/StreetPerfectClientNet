@@ -17,6 +17,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)ClientImport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OutString.cs" />
+<<<<<<< .mine
     <Compile Include="$(MSBuildThisFileDirectory)Test.cs" />
+=======
+    <Compile Include="$(MSBuildThisFileDirectory)SPiniReader.cs" />
+>>>>>>> .theirs
   </ItemGroup>
 </Project>
