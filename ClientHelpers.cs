@@ -55,8 +55,7 @@ namespace StreetPerfect.Helpers
 	}
 
 
-	// the special 132 byte "viewing" record 
-	// I don't use this, but it stays because I put time into it...
+	// the special 132 byte "viewing" record - it's wrong, need to recheck
 	public class caRangeAddressHelper : AddressHelper
 	{
 		protected static string[] CA_range_rec_name = { "st_adr_seq_cde", "st_adr_frm_nbr", "st_adr_to_nbr", "st_nme", "route_serv_typ_dsc_2", "route_serv_nbr_2"
@@ -128,7 +127,7 @@ namespace StreetPerfect.Helpers
 				int row_len = sp_addr_str.Length;
 				for (field_index = 0; field_index < num_fields; field_index++)
 				{
-					if (_rec_pos[field_index] + _rec_len[field_index] < row_len) // seems some rows don't have the country code
+					if (_rec_pos[field_index] + _rec_len[field_index] <= row_len) // seems some rows don't have the country code
 					{
 						string field_val = sp_addr_str.Substring(_rec_pos[field_index], _rec_len[field_index]).Trim();
 						if (field_val.Length > 0)

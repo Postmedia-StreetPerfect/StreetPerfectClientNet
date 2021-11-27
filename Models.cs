@@ -1349,7 +1349,7 @@ namespace StreetPerfect.Models
 		/// </summary>
 
 		[DataMember]
-		public int? st_adr_seq_cde { get; set; }
+		public string st_adr_seq_cde { get; set; }
 
 		/// <summary>
 		/// Street Address to Number
