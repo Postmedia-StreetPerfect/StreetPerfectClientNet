@@ -16,6 +16,7 @@ namespace StreetPerfect.Models
 		public const string ServiceNamespace = "http://StreetPerfect.com/wcf/";
 	}
 
+
 	// ope
 	[DataContract(Namespace = SPConst.DataNamespace)]
 	public class Options
