@@ -1044,6 +1044,9 @@ namespace StreetPerfect.Models
 	[DataContract(Namespace =SPConst.DataNamespace)]
 	public class caQueryRequest
 	{
+		[DataMember]
+		public Options options { get; set; }
+
 		/// <summary>
 		/// Query Option Value
 		///  
@@ -1228,9 +1231,6 @@ namespace StreetPerfect.Models
 		/// 69. (79) Simple Street Name (No civic number)
 		/// 
 		/// </summary>
-
-		[DataMember]
-		public Options options { get; set; }
 
 		[DataMember]
 		public int query_option { get; set; }
