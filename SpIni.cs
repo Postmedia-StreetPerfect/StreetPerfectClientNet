@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-<<<<<<< HEAD
-//using Microsoft.AspNetCore.Mvc.RazorPages;
-=======
->>>>>>> 4e4830b675f06ce88ac51c2104ade4eaabd6f773
 
 namespace StreetPerfect
 {
@@ -144,13 +140,8 @@ namespace StreetPerfect
 		{
 			lock (_Settings)
 			{
-<<<<<<< HEAD
-				Dictionary<string, string> cur_section = null;
-				using (System.IO.StreamReader reader = new StreamReader(filename))
-=======
 				int line_num = 1;
 				try
->>>>>>> 4e4830b675f06ce88ac51c2104ade4eaabd6f773
 				{
 					Dictionary<string, string> cur_section = null;
 					using (StreamReader reader = new StreamReader(fileName))
