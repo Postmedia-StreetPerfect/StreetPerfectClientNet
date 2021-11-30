@@ -1231,7 +1231,7 @@ namespace StreetPerfect.Models
 		/// 69. (79) Simple Street Name (No civic number)
 		/// 
 		/// </summary>
-
+		 
 		[DataMember]
 		public int query_option { get; set; }
 
@@ -1349,7 +1349,7 @@ namespace StreetPerfect.Models
 		/// </summary>
 
 		[DataMember]
-		public int? st_adr_seq_cde { get; set; }
+		public string st_adr_seq_cde { get; set; }
 
 		/// <summary>
 		/// Street Address to Number
