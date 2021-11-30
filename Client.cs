@@ -16,30 +16,6 @@ using StreetPerfect;
 namespace StreetPerfect
 {
 
-
-	public interface IStreetPerfectClient
-	{
-		string ConnectionString { get; set; }
-		bool Debug { get; set; }
-
-		GetInfoResponse GetInfo();
-
-		caQueryResponse caQuery(caQueryRequest req);
-		caFetchAddressResponse caFetchAddress(caFetchAddressRequest req);
-		caFormatAddressResponse caFormatAddress(caFormatAddressRequest req);
-		caValidateAddressResponse caValidateAddress(caValidateAddressRequest req);
-		caCorrectionResponse caProcessCorrection(caAddressRequest req);
-		caParseResponse caProcessParse(caAddressRequest req);
-		caSearchResponse caProcessSearch(caAddressRequest req);
-
-		usCorrectionResponse usProcessCorrection(usAddressRequest req);
-		usParseResponse usProcessParse(usAddressRequest req);
-		usSearchResponse usProcessSearch(usAddressRequest req);
-		usDeliveryInformationResponse usProcessDeliveryInfo(usAddressRequest req);
-	}
-
-
-
 	/// <summary>
 	/// This class wraps the low level raw imported StreetPerfect client.
 	/// Fundamentally marshals the request and response objects to and from the low level 

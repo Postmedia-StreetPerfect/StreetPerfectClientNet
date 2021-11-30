@@ -16,6 +16,7 @@ namespace StreetPerfect.Models
 		public const string ServiceNamespace = "http://StreetPerfect.com/wcf/";
 	}
 
+
 	// ope
 	[DataContract(Namespace = SPConst.DataNamespace)]
 	public class Options
@@ -1044,6 +1045,9 @@ namespace StreetPerfect.Models
 	[DataContract(Namespace =SPConst.DataNamespace)]
 	public class caQueryRequest
 	{
+		[DataMember]
+		public Options options { get; set; }
+
 		/// <summary>
 		/// Query Option Value
 		///  
@@ -1230,9 +1234,6 @@ namespace StreetPerfect.Models
 		/// </summary>
 		 
 		[DataMember]
-		public Options options { get; set; }
-
-		[DataMember]
 		public int query_option { get; set; }
 
 		[DataMember]
@@ -1349,7 +1350,7 @@ namespace StreetPerfect.Models
 		/// </summary>
 
 		[DataMember]
-		public int? st_adr_seq_cde { get; set; }
+		public string st_adr_seq_cde { get; set; }
 
 		/// <summary>
 		/// Street Address to Number

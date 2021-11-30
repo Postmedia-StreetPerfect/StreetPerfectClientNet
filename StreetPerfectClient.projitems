@@ -16,8 +16,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientImport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IStreetPerfectClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OutString.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)RestClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SpIni.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeaheadModels.cs" />
   </ItemGroup>
 </Project>
