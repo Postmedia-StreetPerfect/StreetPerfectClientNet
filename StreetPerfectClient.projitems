@@ -9,6 +9,7 @@
     <Import_RootNamespace>StreetPerfectClient</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" />
     <None Include="$(MSBuildThisFileDirectory)StreetPerfectInterface.h" />
   </ItemGroup>
   <ItemGroup>
@@ -20,5 +21,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)OutString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)RestClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SpIni.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeaheadModels.cs" />
   </ItemGroup>
 </Project>
