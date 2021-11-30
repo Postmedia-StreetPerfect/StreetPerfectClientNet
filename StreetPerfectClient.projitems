@@ -9,6 +9,7 @@
     <Import_RootNamespace>StreetPerfectClient</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)README.md" />
     <None Include="$(MSBuildThisFileDirectory)StreetPerfectInterface.h" />
   </ItemGroup>
   <ItemGroup>
@@ -17,10 +18,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)ClientImport.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OutString.cs" />
-<<<<<<< .mine
-    <Compile Include="$(MSBuildThisFileDirectory)Test.cs" />
-=======
-    <Compile Include="$(MSBuildThisFileDirectory)SPiniReader.cs" />
->>>>>>> .theirs
+    <Compile Include="$(MSBuildThisFileDirectory)SpIni.cs" />
   </ItemGroup>
 </Project>

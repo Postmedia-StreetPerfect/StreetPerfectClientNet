@@ -40,6 +40,8 @@ namespace StreetPerfect.Helpers
 	{
 		public static List<caAddress> MakeAddressList(IEnumerable<string> sp_addr_strs, bool add_orig = false)
 		{
+			if (sp_addr_strs == null)
+				return null;
 			List<caAddress> resp = new List<caAddress>();
 			int cnt = 0;
 			foreach (string addr_str in sp_addr_strs)

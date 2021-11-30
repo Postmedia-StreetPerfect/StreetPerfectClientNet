@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO.Pipelines;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+//using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace StreetPerfect
 {
@@ -62,7 +62,7 @@ namespace StreetPerfect
 			try
 			{
 				Dictionary<string, string> cur_section = null;
-				using (StreamReader reader = new StreamReader(filename))
+				using (System.IO.StreamReader reader = new StreamReader(filename))
 				{
 					string line = "";
 					while (line != null)
