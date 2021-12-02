@@ -60,6 +60,7 @@ namespace StreetPerfect.Controllers
 			}
 		}
 
+		/* NO wildcard - use caQuery -- Or Typeahead
 
 		// POST: api/ca/query/
 		/// <summary>
@@ -131,6 +132,6 @@ namespace StreetPerfect.Controllers
 			}
 		}
 
-
+		*/
 	}
 }

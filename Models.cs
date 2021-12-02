@@ -1247,6 +1247,12 @@ namespace StreetPerfect.Models
 
 		[DataMember]
 		public string postal_code { get; set; }
+
+		/// <summary>
+		/// max records to return, 100 is default
+		/// </summary>
+		[DataMember]
+		public int? max_returned { get; set; } = 100;
 		//public string country { get; set; }
 	}
 

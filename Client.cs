@@ -276,11 +276,18 @@ namespace StreetPerfect
 			// so now I need to check the code first 
 			// query type 31+ 20k max
 			// all else 1 meg
+			// new, max_returned field allows us to set the buffer size correctly
+			int max_returned = req.max_returned == null ? 100 : (int)req.max_returned;
+			if (max_returned <= 0 || max_returned > 2000)
+				max_returned = 1;
+
 			int buf_size = 1000000;
 			if (req.query_option >= 70)
-				buf_size = 468500; // buffer space for 1000 results
+				buf_size = 480 * (max_returned+1); 
+			else if (req.query_option >= 60)
+				buf_size = 240 * (max_returned+1);
 			else if (req.query_option > 30)
-				buf_size = 20000;
+				buf_size = 30000;
 			else if (req.query_option == 16)
 				buf_size = 300000;
 
