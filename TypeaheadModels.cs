@@ -173,6 +173,15 @@ namespace StreetPerfect.Models
 		[DataMember]
 		public bool? autocorrect { get; set; }
 
+
+		/// <summary>
+		/// Return all discrete components of the returned addresses.
+		/// 
+		/// (This includes any modified components from an auto-correction request.)
+		/// </summary>
+		[DataMember]
+		public bool? return_components { get; set; }
+
 		/// <summary>
 		/// Enable autoformat to call ca/format on your behalf.
 		/// 
@@ -229,6 +238,12 @@ namespace StreetPerfect.Models
 		/// </summary>
 		[DataMember]
 		public caAddress addr_rec { get; set; }
+
+		/// <summary>
+		/// if return_components == true (in the fetch request) then discrete address components will be returned in this object
+		/// </summary>
+		[DataMember]
+		public caParseResponse components { get; set; }
 
 		[DataMember]
 		public string status_flag { get; set; }

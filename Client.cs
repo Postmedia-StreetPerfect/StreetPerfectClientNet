@@ -516,23 +516,28 @@ namespace StreetPerfect
 				status_messages = PS_ARG_out_status_messages.ToString(),
 
 				address_type = PS_CAN_out_address_type.ToString(),
-				street_number = PS_CAN_out_street_number.ToString(),
-				street_suffix = PS_CAN_out_street_suffix.ToString(),
-				street_name = PS_CAN_out_street_name.ToString(),
-				street_type = PS_CAN_out_street_type.ToString(),
-				street_direction = PS_CAN_out_street_direction.ToString(),
-				unit_type = PS_CAN_out_unit_type.ToString(),
-				unit_number = PS_CAN_out_unit_number.ToString(),
-				service_type = PS_CAN_out_service_type.ToString(),
-				service_number = PS_CAN_out_service_number.ToString(),
-				service_area_name = PS_CAN_out_service_area_name.ToString(),
-				service_area_type = PS_CAN_out_service_area_type.ToString(),
-				service_area_qualifier = PS_CAN_out_service_area_qualifier.ToString(),
-				extra_information = PS_CAN_out_extra_information.ToString(),
-				unidentified_component = PS_CAN_out_unidentified_component.ToString(),
+				street_number = NullIfEmpty(PS_CAN_out_street_number),
+				street_suffix = NullIfEmpty(PS_CAN_out_street_suffix),
+				street_name = NullIfEmpty(PS_CAN_out_street_name),
+				street_type = NullIfEmpty(PS_CAN_out_street_type),
+				street_direction = NullIfEmpty(PS_CAN_out_street_direction),
+				unit_type = NullIfEmpty(PS_CAN_out_unit_type),
+				unit_number = NullIfEmpty(PS_CAN_out_unit_number),
+				service_type = NullIfEmpty(PS_CAN_out_service_type),
+				service_number = NullIfEmpty(PS_CAN_out_service_number),
+				service_area_name = NullIfEmpty(PS_CAN_out_service_area_name),
+				service_area_type = NullIfEmpty(PS_CAN_out_service_area_type),
+				service_area_qualifier = NullIfEmpty(PS_CAN_out_service_area_qualifier),
+				extra_information = NullIfEmpty(PS_CAN_out_extra_information),
+				unidentified_component = NullIfEmpty(PS_CAN_out_unidentified_component),
 			};
 		}
 
+		protected string NullIfEmpty(OutString outstr)
+		{
+			var s = outstr.ToString();
+			return s.Length == 0 ? null : s;
+		}
 
 		public virtual caSearchResponse caProcessSearch(caAddressRequest req)
 		{
