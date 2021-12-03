@@ -334,7 +334,7 @@ namespace StreetPerfect
 				case 77:
 				case 78:
 				case 79:
-					resp.address_list = caDualRecordResponseHelper.MakeAddressList(resp.function_messages, _Debug);
+					resp.address_list = caDualRecordResponseHelper.MakeAddressList(resp.function_messages, max_returned, _Debug);
 					resp.function_messages = null;
 					break;
 			}

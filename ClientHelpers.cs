@@ -38,7 +38,7 @@ namespace StreetPerfect.Helpers
 	// doesn't do much but so be it
 	public class caDualRecordResponseHelper : AddressHelper
 	{
-		public static List<caAddress> MakeAddressList(IEnumerable<string> sp_addr_strs, bool add_orig = false)
+		public static List<caAddress> MakeAddressList(IEnumerable<string> sp_addr_strs, int max_recs = 0, bool add_orig = false)
 		{
 			if (sp_addr_strs == null)
 				return null;
@@ -49,6 +49,8 @@ namespace StreetPerfect.Helpers
 				if (cnt++ % 2 == 1)
 				{ // odd records
 					resp.Add(caAddressHelper.MakeCaAddressObject(addr_str, add_orig));
+					if (--max_recs == 0)
+						break;
 				}
 			}
 			return resp;
