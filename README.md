@@ -1,5 +1,5 @@
 # StreetPerfectClient for .Net
-C# XPC Client for StreetPerfect native access
+C# XPC Client for StreetPerfect native AND HTTP access
 
 The easiest way to use the C# client is to add it as a singleton service in your ConfigureServices() aspnet function.
 
