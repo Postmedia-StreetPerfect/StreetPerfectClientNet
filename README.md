@@ -67,6 +67,17 @@ public IActionResult Index()
        
 ```
  
+You can also use the HTTP client to connect to your own HTTP enabled StreetPerfect server.
+Note that the HTTP client requires the ReFit nuget package - which makes http rest client creation & use almost trivial.
+
+```C#
+builder.Services.AddRefitClient<IStreetPerfectRestClient>().ConfigureHttpClient(c =>
+	{
+		c.BaseAddress = new Uri("Your own private server url");
+	});
+```
+ 
+ 
  
  The client also contains abstract aspnet controllers allowing you to wire them directly into your own api. This also allows you to add the same Swagger pages as our API site.
  
