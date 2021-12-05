@@ -56,12 +56,12 @@ public HomeController(IStreetPerfectRestClient Client, ILogger<HomeController> l
 }
 ```
  
-And use the HTTP client exactely like the native client
+And use the HTTP client (alomst) exactely like the native client - all HTTP client calls are asynchronous
 
 ```C#
-public IActionResult Index()
+public async Task<IActionResult> Index()
 {
-    ViewData["info"] = _Client.GetInfo();
+    ViewData["info"] = await _Client.GetInfo();
     return View();
 }
        
