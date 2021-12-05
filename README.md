@@ -31,8 +31,44 @@ public IActionResult Index()
 }
        
 ```
+
+There is also an HTTP Client for accessing api.streetperfect.com
+
+```C#
+// setup the SP REST client at Program startup
+builder.Services.AddStreetPerfectClient(c =>
+{
+	c.ClientId = appSettings.SPRestConfig?.ClientId; // YOUR api.StreetPerfect.com client ID
+	c.ClientSecret = appSettings.SPRestConfig?.ClientSecret; //YOUR api.StreetPerfect.com API key
+	c.UseDevEndpoint = true; // use api.streetperfect or apidev.streetperfect
+});
+```
+
+Inject the HTTP client like you would the native client
+
+```C#
+private readonly ILogger<HomeController> _logger;
+private readonly IStreetPerfectRestClient _Client;
+public HomeController(IStreetPerfectRestClient Client, ILogger<HomeController> logger)
+{
+  _logger = logger;
+  _Client = Client;
+}
+```
  
- The client also contains abstract aspnet controllers allowing you to wire them directly into your own api.
+And use the HTTP client exactely like the native client
+
+```C#
+public IActionResult Index()
+{
+    ViewData["info"] = _Client.GetInfo();
+    return View();
+}
+       
+```
+ 
+ 
+ The client also contains abstract aspnet controllers allowing you to wire them directly into your own api. This also allows you to add the same Swagger pages as our API site.
  
 ```C#
 namespace YourApp.Controllers
