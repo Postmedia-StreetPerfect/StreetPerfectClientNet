@@ -16,8 +16,73 @@ namespace StreetPerfect.Models
 		public const string ServiceNamespace = "http://StreetPerfect.com/wcf/";
 	}
 
+	public class TokenResponse
+	{
+		/// <summary>
+		/// The actual JWT, set this to the Authorization http header for all subsequent requests
+		/// 
+		/// Authorization: Bearer [AccessToken]
+		/// </summary>
+		public string AccessToken { get; set; }
 
-	// ope
+		/// <summary>
+		/// Token type, should always be 'Bearer'
+		/// </summary>
+		public string TokenType { get; set; }
+
+		/// <summary>
+		/// The refresh token to save for refreshing via api/token/refresh endpoint
+		/// </summary>
+		public string RefreshToken { get; set; }
+
+		/// <summary>
+		/// The number of minutes this token will take to expire.
+		/// After that you must refresh the token.
+		/// </summary>
+		public int Expires { get; set; }
+
+		/// <summary>
+		/// The date (UTC) that this token will NOT refresh anymore. 
+		/// 
+		/// If the token refresh never expires then this will be null or simply missing.
+		/// </summary>
+		public DateTime? RefreshExpireDate { get; set; }
+
+		/// <summary>
+		/// error message or 'OK' if ok...
+		/// </summary>
+		public string Msg { get; set; }
+	}
+
+	public class TokenRequest
+	{
+		/// <summary>
+		/// Your client id - normally the email address you use to logon the site.
+		/// </summary>
+		public string ClientId { get; set; }
+
+		/// <summary>
+		/// This is the generated api key you must store safely.
+		/// </summary>
+		public string ClientSecret { get; set; }
+	}
+
+	public class TokenRefreshRequest
+	{
+		/// <summary>
+		/// The JWT access token
+		/// </summary>
+		public string AccessToken { get; set; }
+
+		/// <summary>
+		/// The refresh token that was sent via the new token endpoint or the last refresh.
+		/// </summary>
+		public string RefreshToken { get; set; }
+	}
+
+
+
+
 	[DataContract(Namespace = SPConst.DataNamespace)]
 	public class Options
 	{
