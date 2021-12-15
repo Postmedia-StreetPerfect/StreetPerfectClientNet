@@ -23,17 +23,17 @@ namespace StreetPerfect
 	/// </summary>
 	/// 
 
+	public enum SpIniSection { StreetPerfectServer, StreetPerfectService, StreetPerfectBatchProcess, StreetPerfectInteractiveProcess }
 	public interface ISpIni
 	{
 		// valid ini sections, anything else will error, or something
-		public enum Section { StreetPerfectServer, StreetPerfectService, StreetPerfectBatchProcess, StreetPerfectInteractiveProcess }
-		public string Get(Section sect, string param, string def_val = null);
-		public int? GetInt(Section sect, string param, int? def_val = null);
-		public bool? GetBool(Section sect, string param, bool? def_val = null);
+		string Get(SpIniSection sect, string param, string def_val = null);
+		int? GetInt(SpIniSection sect, string param, int? def_val = null);
+		bool? GetBool(SpIniSection sect, string param, bool? def_val = null);
 
-		public bool Check();
-		public string lastError { get; }
-		public string fileName { get; }
+		bool Check();
+		string lastError { get; }
+		string fileName { get; }
 
 	}
 
@@ -44,7 +44,7 @@ namespace StreetPerfect
 
 		// first key is the section, next is the key & value
 		// we don't need ConcurrentDictionary since it's readonly
-		private readonly Dictionary<ISpIni.Section, Dictionary<string, string>> _Settings;
+		private readonly Dictionary<SpIniSection, Dictionary<string, string>> _Settings;
 
 		private readonly Regex _re_sect;
 		private readonly Regex _re_keyval;
@@ -67,7 +67,7 @@ namespace StreetPerfect
 		public SpIni(string filename)
 		{
 			fileName = filename;
-			_Settings = new Dictionary<ISpIni.Section, Dictionary<string, string>>();
+			_Settings = new Dictionary<SpIniSection, Dictionary<string, string>>();
 			_re_sect = new Regex(@"\[(.*?)\]", RegexOptions.Compiled);
 			_re_keyval = new Regex(@"(.*)?=(.*)", RegexOptions.Compiled);
 		}
@@ -99,7 +99,7 @@ namespace StreetPerfect
 			return ini;
 		}
 
-		public string Get(ISpIni.Section sect, string param, string def_val = null)
+		public string Get(SpIniSection sect, string param, string def_val = null)
 		{
 			lock (_Settings)
 			{
@@ -114,7 +114,7 @@ namespace StreetPerfect
 			return def_val;
 		}
 
-		public int? GetInt(ISpIni.Section sect, string param, int? def_val = null)
+		public int? GetInt(SpIniSection sect, string param, int? def_val = null)
 		{
 			string val = Get(sect, param, (string)null);
 			if (val != null)
@@ -124,7 +124,7 @@ namespace StreetPerfect
 			return def_val;
 		}
 
-		public bool? GetBool(ISpIni.Section sect, string param, bool? def_val = null)
+		public bool? GetBool(SpIniSection sect, string param, bool? def_val = null)
 		{
 			string val = Get(sect, param, (string)null);
 			if (val != null)
@@ -153,9 +153,9 @@ namespace StreetPerfect
 							if (!String.IsNullOrWhiteSpace(line))
 							{
 								line = line.Trim();
-								if (line.Length > 0 && !line.StartsWith(';') && !line.StartsWith(':'))
+								if (line.Length > 0 && !line.StartsWith(";") && !line.StartsWith(":"))
 								{
-									if (line.StartsWith('['))
+									if (line.StartsWith("["))
 									{
 										var sect = _re_sect.Replace(line, @"$1");
 										if (sect == null)
@@ -200,15 +200,15 @@ namespace StreetPerfect
 
 		private Dictionary<string, string> GetSectionDict(string sect)
 		{
-			ISpIni.Section e_sect;
-			if (Enum.TryParse<ISpIni.Section>(sect, out e_sect))
+			SpIniSection e_sect;
+			if (Enum.TryParse<SpIniSection>(sect, out e_sect))
 			{
 				return GetSectionDict(e_sect);
 			}
 			throw new ArgumentException($"bad section value in ini, '{sect}'");
 		}
 
-		private Dictionary<string, string> GetSectionDict(ISpIni.Section sect)
+		private Dictionary<string, string> GetSectionDict(SpIniSection sect)
 		{
 			Dictionary<string, string> dict;
 			if (!_Settings.TryGetValue(sect, out dict))
