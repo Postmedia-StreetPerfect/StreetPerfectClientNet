@@ -27,6 +27,8 @@ namespace StreetPerfect
 	public class StreetPerfectClient : IStreetPerfectClient
 	{
 		public const string defaulConnectionString = "ServiceAddress=127.0.0.1;ServicePort=1330;";
+		public const string Version = "11.0.1";
+		public const string License = "Copyright © 1993-2022, Postmedia Network Inc";
 
 		protected string _connection_string;
 		protected bool _Debug = false; // this will insert the original SP records into the json responses
@@ -82,13 +84,17 @@ namespace StreetPerfect
 					PS_ARG_out_status_flag.s,
 					PS_ARG_out_status_messages.s);
 
-			return new GetInfoResponse()
+			var info = new GetInfoResponse()
 			{
 				info = PS_CAN_out_response_address_list.ToList(),
 				status_flag = PS_ARG_out_status_flag.ToString(),
 				status_messages = PS_ARG_out_status_messages.ToString()
 			};
 
+			// append our own version - for a quick sanity check
+			info.info.Add($"CSharpClientVersionXPC:  v{Version}");
+
+			return info;
 		}
 
 
