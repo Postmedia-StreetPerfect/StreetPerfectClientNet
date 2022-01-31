@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using StreetPerfect.Helpers;
 using StreetPerfect.Models;
 using StreetPerfect;
+using Org.BouncyCastle.Ocsp;
 
 #pragma warning disable 1591
 
@@ -27,6 +28,8 @@ namespace StreetPerfect
 	public class StreetPerfectClient : IStreetPerfectClient
 	{
 		public const string defaulConnectionString = "ServiceAddress=127.0.0.1;ServicePort=1330;";
+		public const string Version = "11.0.1";
+		public const string License = "Copyright © 1993-2022, Postmedia Network Inc";
 
 		protected string _connection_string;
 		protected bool _Debug = false; // this will insert the original SP records into the json responses
@@ -82,21 +85,28 @@ namespace StreetPerfect
 					PS_ARG_out_status_flag.s,
 					PS_ARG_out_status_messages.s);
 
-			return new GetInfoResponse()
+			var ret = new GetInfoResponse()
 			{
 				info = PS_CAN_out_response_address_list.ToList(),
 				status_flag = PS_ARG_out_status_flag.ToString(),
 				status_messages = PS_ARG_out_status_messages.ToString()
 			};
 
+			var msg = $"CSharpClientVersion:  v{Version}";
+#if DEBUG
+			msg += " - DEBUG";
+#endif
+			ret.info.Add(msg);
+			ret.status_messages = ret.info.Count.ToString();
+			return ret;
 		}
 
 
-		/// <summary>
-		/// ONLY for use with the SPC (single threaded network session) client library
-		/// SPC expects the same thread so this won't work anyway in this environment - even if you lock access
-		/// </summary>
-		/// <returns></returns>
+/// <summary>
+/// ONLY for use with the SPC (single threaded network session) client library
+/// SPC expects the same thread so this won't work anyway in this environment - even if you lock access
+/// </summary>
+/// <returns></returns>
 		public virtual ConnectionResponse Connect()
 		{
 			OutString PS_ARG_out_status_flag = new OutString(10);
