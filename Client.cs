@@ -84,39 +84,28 @@ namespace StreetPerfect
 					PS_ARG_out_status_flag.s,
 					PS_ARG_out_status_messages.s);
 
-<<<<<<< HEAD
-			var info = new GetInfoResponse()
-=======
 			var ret = new GetInfoResponse()
->>>>>>> 30b32e771544caf228bfdf79a449099c1a91e299
 			{
 				info = PS_CAN_out_response_address_list.ToList(),
 				status_flag = PS_ARG_out_status_flag.ToString(),
 				status_messages = PS_ARG_out_status_messages.ToString()
 			};
 
-<<<<<<< HEAD
-			// append our own version - for a quick sanity check
-			info.info.Add($"CSharpClientVersionXPC:  v{Version}");
-
-			return info;
-=======
-			var msg = $"CSharpClientVersion:  v{Version}";
+			var msg = $"CSharpClientVersionXPC:  v{Version}";
 #if DEBUG
 			msg += " - DEBUG";
 #endif
 			ret.info.Add(msg);
 			ret.status_messages = ret.info.Count.ToString();
 			return ret;
->>>>>>> 30b32e771544caf228bfdf79a449099c1a91e299
 		}
 
 
-/// <summary>
-/// ONLY for use with the SPC (single threaded network session) client library
-/// SPC expects the same thread so this won't work anyway in this environment - even if you lock access
-/// </summary>
-/// <returns></returns>
+		/// <summary>
+		/// ONLY for use with the SPC (single threaded network session) client library
+		/// SPC expects the same thread so this won't work anyway in this environment - even if you lock access
+		/// </summary>
+		/// <returns></returns>
 		public virtual ConnectionResponse Connect()
 		{
 			OutString PS_ARG_out_status_flag = new OutString(10);
