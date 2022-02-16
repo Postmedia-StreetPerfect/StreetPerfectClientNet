@@ -145,7 +145,9 @@ namespace StreetPerfect
 			};
 		}
 
-		/*
+		/* I removed these functions as they're deprecated
+		 * the new 'XPC' functions are all run from ClientImport.ProcessAddress()
+		 * 
 				public caCorrectionResponse CorrectAddress(caCorrectionRequest req)
 				{
 					// to reduce the mem footprint (a little) you can set the string initial capacity
