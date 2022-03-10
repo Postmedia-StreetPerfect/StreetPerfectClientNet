@@ -15,20 +15,20 @@ namespace StreetPerfect
 	{
 #if WINDOWS
 		// yes we could import the 32 bit Xpc lib as well	
-#if DEBUG
-		public const string _dll = "SpaaSqaXpcClientNim64_d.Dll";
-#else
-		public const string _dll = "SpaaSqaXpcClientNim64.Dll";
-#endif
+	#if DEBUG
+			public const string _dll = "SpaaSqaXpcClientNim64_d.Dll";
+	#else
+			public const string _dll = "SpaaSqaXpcClientNim64.Dll";
+	#endif
 #elif LINUX
-#if NIM_N
-		public const string _dll = "libSpaaSqaXpcClientNim64N.so"; // no idea
+	#if DEBUG
+			public const string _dll = "libSpaaSqaXpcClientNim64_d.so"; 
+	#else
+			public const string _dll = "libSpaaSqaXpcClientNim64.so";
+	#endif
 #else
-		public const string _dll = "libSpaaSqaXpcClientNim64.so";
-#endif
-#else
-		public const string _dll = "______.Dll";
-#error You must define WINDOWS or LINUX in your compiler symbols
+	#warning You must define WINDOWS or LINUX in your compiler symbols
+	public const string _dll = "SpaaSqaXpcClientNim64_d.Dll";
 
 #endif
 		//this is the single threaded client which requires connect/disconnect
@@ -40,8 +40,8 @@ namespace StreetPerfect
 			CharSet = CharSet.Ansi, ExactSpelling = true,
 			CallingConvention = CallingConvention.Cdecl)]
 		public static extern System.IntPtr Connect(string PS_ARG_in_parameter_file,
-					   StringBuilder PS_ARG_out_status_flag,
-					   StringBuilder PS_ARG_out_status_messages);
+					   Byte[] PS_ARG_out_status_flag,
+					   Byte[] PS_ARG_out_status_messages);
 
 
 		//not used if using XPC client
@@ -49,8 +49,8 @@ namespace StreetPerfect
 			CharSet = CharSet.Ansi, ExactSpelling = true,
 			CallingConvention = CallingConvention.Cdecl)]
 		public static extern System.IntPtr Disconnect(string PS_ARG_in_parameter_file,
-						  StringBuilder PS_ARG_out_status_flag,
-						  StringBuilder PS_ARG_out_status_messages);
+						  Byte[] PS_ARG_out_status_flag,
+						  Byte[] PS_ARG_out_status_messages);
 
 
 		[DllImport(_dll, EntryPoint = "StreetPerfectCorrectAddress",
@@ -62,16 +62,16 @@ namespace StreetPerfect
 				string PS_CAN_in_province,
 				string PS_CAN_in_postal_code,
 				string PS_CAN_in_country,
-				StringBuilder PS_CAN_out_address_line,
-				StringBuilder PS_CAN_out_city,
-				StringBuilder PS_CAN_out_province,
-				StringBuilder PS_CAN_out_postal_code,
-				StringBuilder PS_CAN_out_country,
-				StringBuilder PS_CAN_out_extra_information,
-				StringBuilder PS_CAN_out_unidentified_component,
-				StringBuilder PS_ARG_out_function_messages,
-				StringBuilder PS_ARG_out_status_flag,
-				StringBuilder PS_ARG_out_status_messages);
+				Byte[] PS_CAN_out_address_line,
+				Byte[] PS_CAN_out_city,
+				Byte[] PS_CAN_out_province,
+				Byte[] PS_CAN_out_postal_code,
+				Byte[] PS_CAN_out_country,
+				Byte[] PS_CAN_out_extra_information,
+				Byte[] PS_CAN_out_unidentified_component,
+				Byte[] PS_ARG_out_function_messages,
+				Byte[] PS_ARG_out_status_flag,
+				Byte[] PS_ARG_out_status_messages);
 
 
 		// this opens a dialog - DON'T call in a web environment!
@@ -81,19 +81,19 @@ namespace StreetPerfect
 		public static extern System.IntPtr CaptureAddress(string PS_ARG_in_parameter_file,
 							  string PS_CAN_in_postal_code,
 							  string PS_CAN_in_country,
-							  StringBuilder PS_CAN_out_additional_information,
-							  StringBuilder PS_CAN_out_delivery_information,
-							  StringBuilder PS_CAN_out_extra_information,
-							  StringBuilder PS_CAN_out_address_line,
-							  StringBuilder PS_CAN_out_city,
-							  StringBuilder PS_CAN_out_province,
-							  StringBuilder PS_CAN_out_postal_code,
-							  StringBuilder PS_CAN_out_country,
-							  StringBuilder PS_CAN_out_format_line_one,
-							  StringBuilder PS_CAN_out_format_line_two,
-							  StringBuilder PS_CAN_out_format_line_three,
-							  StringBuilder PS_ARG_out_status_flag,
-							  StringBuilder PS_ARG_out_status_messages);
+							  Byte[] PS_CAN_out_additional_information,
+							  Byte[] PS_CAN_out_delivery_information,
+							  Byte[] PS_CAN_out_extra_information,
+							  Byte[] PS_CAN_out_address_line,
+							  Byte[] PS_CAN_out_city,
+							  Byte[] PS_CAN_out_province,
+							  Byte[] PS_CAN_out_postal_code,
+							  Byte[] PS_CAN_out_country,
+							  Byte[] PS_CAN_out_format_line_one,
+							  Byte[] PS_CAN_out_format_line_two,
+							  Byte[] PS_CAN_out_format_line_three,
+							  Byte[] PS_ARG_out_status_flag,
+							  Byte[] PS_ARG_out_status_messages);
 
 
 		[DllImport(_dll, EntryPoint = "StreetPerfectQueryAddress",
@@ -106,9 +106,9 @@ namespace StreetPerfect
 							string PS_CAN_in_province,
 							string PS_CAN_in_postal_code,
 							string PS_CAN_in_country,
-							StringBuilder PS_CAN_out_response_address_list,
-							StringBuilder PS_ARG_out_status_flag,
-							StringBuilder PS_ARG_out_status_messages);
+							Byte[] PS_CAN_out_response_address_list,
+							Byte[] PS_ARG_out_status_flag,
+							Byte[] PS_ARG_out_status_messages);
 
 
 
@@ -123,24 +123,24 @@ namespace StreetPerfect
 							   string PS_ARG_IN_06,
 							   string PS_ARG_IN_07,
 							   string PS_ARG_IN_08,
-							   StringBuilder PS_out_status_flag,		//common
-							   StringBuilder PS_out_status_messages,    //common
-							   StringBuilder PS_out_function_messages,  //common
-							   StringBuilder PS_ARG_OUT_12,
-							   StringBuilder PS_ARG_OUT_13,
-							   StringBuilder PS_ARG_OUT_14,
-							   StringBuilder PS_ARG_OUT_15,
-							   StringBuilder PS_ARG_OUT_16,
-							   StringBuilder PS_ARG_OUT_17,
-							   StringBuilder PS_ARG_OUT_18,
-							   StringBuilder PS_ARG_OUT_19,
-							   StringBuilder PS_ARG_OUT_20,
-							   StringBuilder PS_ARG_OUT_21,
-							   StringBuilder PS_ARG_OUT_22,
-							   StringBuilder PS_ARG_OUT_23,
-							   StringBuilder PS_ARG_OUT_24,
-							   StringBuilder PS_ARG_OUT_35,
-							   StringBuilder PS_ARG_OUT_26);
+							   Byte[] PS_out_status_flag,		//common
+							   Byte[] PS_out_status_messages,    //common
+							   Byte[] PS_out_function_messages,  //common
+							   Byte[] PS_ARG_OUT_12,
+							   Byte[] PS_ARG_OUT_13,
+							   Byte[] PS_ARG_OUT_14,
+							   Byte[] PS_ARG_OUT_15,
+							   Byte[] PS_ARG_OUT_16,
+							   Byte[] PS_ARG_OUT_17,
+							   Byte[] PS_ARG_OUT_18,
+							   Byte[] PS_ARG_OUT_19,
+							   Byte[] PS_ARG_OUT_20,
+							   Byte[] PS_ARG_OUT_21,
+							   Byte[] PS_ARG_OUT_22,
+							   Byte[] PS_ARG_OUT_23,
+							   Byte[] PS_ARG_OUT_24,
+							   Byte[] PS_ARG_OUT_35,
+							   Byte[] PS_ARG_OUT_26);
 
 
 		[DllImport(_dll, EntryPoint = "StreetPerfectFetchAddress",
@@ -151,13 +151,13 @@ namespace StreetPerfect
 							string PS_CAN_in_street_number,
 							string PS_CAN_in_unit_number,
 							string PS_CAN_in_postal_code,
-							StringBuilder PS_CAN_out_address_line,
-							StringBuilder PS_CAN_out_city,
-							StringBuilder PS_CAN_out_province,
-							StringBuilder PS_CAN_out_postal_code,
-							StringBuilder PS_CAN_out_country,
-							StringBuilder PS_ARG_out_status_flag,
-							StringBuilder PS_ARG_out_status_messages);
+							Byte[] PS_CAN_out_address_line,
+							Byte[] PS_CAN_out_city,
+							Byte[] PS_CAN_out_province,
+							Byte[] PS_CAN_out_postal_code,
+							Byte[] PS_CAN_out_country,
+							Byte[] PS_ARG_out_status_flag,
+							Byte[] PS_ARG_out_status_messages);
 
 
 		[DllImport(_dll, EntryPoint = "StreetPerfectFormatAddress",
@@ -169,13 +169,13 @@ namespace StreetPerfect
 							 string PS_CAN_in_province,
 							 string PS_CAN_in_postal_code,
 							 string PS_CAN_in_country,
-							 StringBuilder PS_CAN_out_format_line_one,
-							 StringBuilder PS_CAN_out_format_line_two,
-							 StringBuilder PS_CAN_out_format_line_three,
-							 StringBuilder PS_CAN_out_format_line_four,
-							 StringBuilder PS_CAN_out_format_line_five,
-							 StringBuilder PS_ARG_out_status_flag,
-							 StringBuilder PS_ARG_out_status_messages);
+							 Byte[] PS_CAN_out_format_line_one,
+							 Byte[] PS_CAN_out_format_line_two,
+							 Byte[] PS_CAN_out_format_line_three,
+							 Byte[] PS_CAN_out_format_line_four,
+							 Byte[] PS_CAN_out_format_line_five,
+							 Byte[] PS_ARG_out_status_flag,
+							 Byte[] PS_ARG_out_status_messages);
 
 
 		[DllImport(_dll, EntryPoint = "StreetPerfectParseAddress",
@@ -187,32 +187,32 @@ namespace StreetPerfect
 							string PS_CAN_in_province,
 							string PS_CAN_in_postal_code,
 							string PS_CAN_in_country,
-							StringBuilder PS_CAN_xxx_address_type,
-							StringBuilder PS_CAN_out_address_line,
-							StringBuilder PS_CAN_out_street_number,
-							StringBuilder PS_CAN_out_street_suffix,
-							StringBuilder PS_CAN_out_street_name,
-							StringBuilder PS_CAN_out_street_type,
-							StringBuilder PS_CAN_out_street_direction,
-							StringBuilder PS_CAN_out_unit_type,
-							StringBuilder PS_CAN_out_unit_number,
-							StringBuilder PS_CAN_out_service_type,
-							StringBuilder PS_CAN_out_service_number,
-							StringBuilder PS_CAN_out_service_area_name,
-							StringBuilder PS_CAN_out_service_area_type,
-							StringBuilder PS_CAN_out_service_area_qualifier,
-							StringBuilder PS_CAN_out_city,
-							StringBuilder PS_CAN_out_city_abbrev_long,
-							StringBuilder PS_CAN_out_city_abbrev_short,
-							StringBuilder PS_CAN_out_province,
-							StringBuilder PS_CAN_out_postal_code,
-							StringBuilder PS_CAN_out_country,
-							StringBuilder PS_CAN_out_cpct_information,
-							StringBuilder PS_CAN_out_extra_information,
-							StringBuilder PS_CAN_out_unidentified_component,
-							StringBuilder PS_ARG_out_function_messages,
-							StringBuilder PS_ARG_out_status_flag,
-							StringBuilder PS_ARG_out_status_messages);
+							Byte[] PS_CAN_xxx_address_type,
+							Byte[] PS_CAN_out_address_line,
+							Byte[] PS_CAN_out_street_number,
+							Byte[] PS_CAN_out_street_suffix,
+							Byte[] PS_CAN_out_street_name,
+							Byte[] PS_CAN_out_street_type,
+							Byte[] PS_CAN_out_street_direction,
+							Byte[] PS_CAN_out_unit_type,
+							Byte[] PS_CAN_out_unit_number,
+							Byte[] PS_CAN_out_service_type,
+							Byte[] PS_CAN_out_service_number,
+							Byte[] PS_CAN_out_service_area_name,
+							Byte[] PS_CAN_out_service_area_type,
+							Byte[] PS_CAN_out_service_area_qualifier,
+							Byte[] PS_CAN_out_city,
+							Byte[] PS_CAN_out_city_abbrev_long,
+							Byte[] PS_CAN_out_city_abbrev_short,
+							Byte[] PS_CAN_out_province,
+							Byte[] PS_CAN_out_postal_code,
+							Byte[] PS_CAN_out_country,
+							Byte[] PS_CAN_out_cpct_information,
+							Byte[] PS_CAN_out_extra_information,
+							Byte[] PS_CAN_out_unidentified_component,
+							Byte[] PS_ARG_out_function_messages,
+							Byte[] PS_ARG_out_status_flag,
+							Byte[] PS_ARG_out_status_messages);
 
 
 
@@ -225,9 +225,9 @@ namespace StreetPerfect
 							 string PS_CAN_in_province,
 							 string PS_CAN_in_postal_code,
 							 string PS_CAN_in_country,
-							 StringBuilder PS_CAN_out_response_address_list,
-							 StringBuilder PS_ARG_out_status_flag,
-							 StringBuilder PS_ARG_out_status_messages);
+							 Byte[] PS_CAN_out_response_address_list,
+							 Byte[] PS_ARG_out_status_flag,
+							 Byte[] PS_ARG_out_status_messages);
 
 
 		[DllImport(_dll, EntryPoint = "StreetPerfectValidateAddress",
@@ -239,9 +239,9 @@ namespace StreetPerfect
 							   string PS_CAN_in_province,
 							   string PS_CAN_in_postal_code,
 							   string PS_CAN_in_country,
-							   StringBuilder PS_ARG_out_function_messages,
-							   StringBuilder PS_ARG_out_status_flag,
-							   StringBuilder PS_ARG_out_status_messages);
+							   Byte[] PS_ARG_out_function_messages,
+							   Byte[] PS_ARG_out_status_flag,
+							   Byte[] PS_ARG_out_status_messages);
 
 
 

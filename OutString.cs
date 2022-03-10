@@ -12,34 +12,39 @@ namespace StreetPerfect.Helpers
 	public class OutString
 	{
 		protected const int _ca_result_rec_size = 235;
-		protected StringBuilder _s = null;
-
+		protected byte[] _s = null;
 		public OutString(int cap = 2000)
 		{
-			_s = new StringBuilder("", cap);
-			_s.Append(' ', cap);
+			_s = new byte[cap];
+			//_s.Append(' ', cap);
+
+			var span = new Span<byte>(_s);
+			span.Fill(32);
+
 		}
 		public OutString(string s, int cap = 4000)
 		{
-			_s = new StringBuilder(s, cap);
-			//_s.Append(' ', cap);
+			_s = new Byte[cap];
+
+			var chars = Encoding.Latin1.GetBytes(s);
+			chars.CopyTo(_s, 0);
 		}
 
-		public StringBuilder s
+		public byte[] s
 		{
 			get { return _s; }
 		}
 
 		public override string ToString()
 		{
-			return _s.ToString().Trim();
+			return Encoding.Latin1.GetString(_s).Trim();
 		}
 
 		public int ToInt()
 		{
 			try
 			{
-				return Convert.ToInt32(_s.ToString());
+				return Convert.ToInt32(ToString());
 			}
 			catch (Exception)
 			{
@@ -50,7 +55,7 @@ namespace StreetPerfect.Helpers
 		public List<string> ToList()
 		{
 			List<string> ret = new List<string>();
-			foreach (string s in _s.ToString().Split(new char[] { '\n' }))
+			foreach (string s in ToString().Split(new char[] { '\n' }))
 			{
 				string sx = s.Trim();
 				if (sx.Length > 0)
@@ -82,7 +87,7 @@ namespace StreetPerfect.Helpers
 		public List<caAddress> ToCaAddrList(int expected_cnt, bool debug = false)
 		{
 			List<caAddress> ret = new List<caAddress>();
-			string buf = _s.ToString();
+			string buf = ToString();
 			string[] rslts = buf.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 			int cnt = 0;
 			foreach (string s in rslts)
@@ -102,7 +107,7 @@ namespace StreetPerfect.Helpers
 		public List<usAddress> ToUsAddrList(int expected_cnt, bool debug = false)
 		{
 			List<usAddress> ret = new List<usAddress>();
-			string buf = _s.ToString();
+			string buf = ToString();
 
 			// truncate the buffer at the last rec before spiting? will it make a diff? (as in the string is space filled)
 			string[] rslts = buf.Split("\r\n".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
