@@ -8,6 +8,10 @@ namespace StreetPerfect.Helpers
 {
 	/// <summary>
 	/// output parameter helper class for calling low level spaa calls
+	/// 
+	/// note I switched from StringBuilder to simple byte[] array - then do the decoding myself
+	/// this is because Linux interop expects utf-8 as the encoding - but SP server only handles 8859-1 and a few other one-to-one encodings
+	/// too hard to add utf-8 to SP, so I do it here, shouldn't add any overhead
 	/// </summary>
 	public class OutString
 	{
@@ -16,16 +20,21 @@ namespace StreetPerfect.Helpers
 		public OutString(int cap = 2000)
 		{
 			_s = new byte[cap];
-			//_s.Append(' ', cap);
 
+#if NETCOREAPP
+			// fast way to fill array
 			var span = new Span<byte>(_s);
 			span.Fill(32);
+#else
+			for(int n = 0; n < cap; n++){
+				_s[n] = 32;
+			}
+#endif
 
 		}
 		public OutString(string s, int cap = 4000)
 		{
 			_s = new Byte[cap];
-
 			var chars = Encoding.Latin1.GetBytes(s);
 			chars.CopyTo(_s, 0);
 		}
@@ -59,7 +68,7 @@ namespace StreetPerfect.Helpers
 			{
 				string sx = s.Trim();
 				if (sx.Length > 0)
-					ret.Add(sx.Trim());
+					ret.Add(sx);
 			}
 			if (ret.Count > 0)
 			{
