@@ -35,7 +35,11 @@ namespace StreetPerfect.Helpers
 		public OutString(string s, int cap = 4000)
 		{
 			_s = new Byte[cap];
+#if NETCOREAPP
 			var chars = Encoding.Latin1.GetBytes(s);
+#else
+			var chars = Encoding.Default.GetBytes(s);
+#endif
 			chars.CopyTo(_s, 0);
 		}
 
@@ -46,7 +50,11 @@ namespace StreetPerfect.Helpers
 
 		public override string ToString()
 		{
+#if NETCOREAPP
 			return Encoding.Latin1.GetString(_s).Trim();
+#else
+			return Encoding.Default.GetString(_s).Trim();
+#endif
 		}
 
 		public int ToInt()
