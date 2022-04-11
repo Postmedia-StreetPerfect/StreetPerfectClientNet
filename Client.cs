@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using StreetPerfect.Helpers;
 using StreetPerfect.Models;
 using StreetPerfect;
+using StreetPerfectClient;
 
 #pragma warning disable 1591
 
@@ -236,8 +237,10 @@ namespace StreetPerfect
 					OutString PS_ARG_out_status_flag = new OutString();
 					OutString PS_ARG_out_status_messages = new OutString();
 
-					ClientImport.ParseAddress(_connection_string, req.address_line, req.city, req.province
-						, req.postal_code, req.country, PS_CAN_xxx_address_type.s
+					ClientImport.ParseAddress(_connection_string
+						, req.address_line, req.city, req.province
+						, req.postal_code, req.country
+						, PS_CAN_xxx_address_type.s
 						, PS_CAN_out_address_line.s, PS_CAN_out_street_number.s, PS_CAN_out_street_suffix.s
 						, PS_CAN_out_street_name.s, PS_CAN_out_street_type.s, PS_CAN_out_street_direction.s
 						, PS_CAN_out_unit_type.s, PS_CAN_out_unit_number.s, PS_CAN_out_service_type.s
@@ -452,12 +455,19 @@ namespace StreetPerfect
 			OutString PS_CAN_out_extra_information = new OutString();
 			OutString PS_CAN_out_unidentified_component = new OutString();
 
-			string _in_not_used = "";
+			InString PS_recipient = new InString(req.recipient);
+			InString PS_address_line = new InString(req.address_line);
+			InString PS_city = new InString(req.city);
+			InString PS_province = new InString(req.postal_code);
+			InString PS_postal_code = new InString(req.postal_code);
+
+			InString _in_not_used = new InString();
 			OutString _out_not_used = new OutString(10);
 			 
 			ClientImport.ProcessAddress(GetConnectionString(req.options), "CAN_AddressCorrection"
-				, req.recipient ?? "", _in_not_used ?? "", req.address_line ?? "", req.city ?? ""
-				, req.province ?? "", req.postal_code ?? ""
+				, PS_recipient.s, _in_not_used.s, PS_address_line.s, PS_city.s
+				, PS_province.s, PS_postal_code.s
+
 				, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 				, PS_CAN_out_recipient.s, _out_not_used.s, PS_CAN_out_address_line.s, PS_CAN_out_city.s
 				, PS_CAN_out_province.s, PS_CAN_out_postal_code.s, PS_CAN_out_extra_information.s, PS_CAN_out_unidentified_component.s
@@ -503,12 +513,19 @@ namespace StreetPerfect
 			OutString PS_CAN_out_extra_information = new OutString();
 			OutString PS_CAN_out_unidentified_component = new OutString();
 
-			string _in_not_used = "";
+			InString PS_recipient = new InString(req.recipient);
+			InString PS_address_line = new InString(req.address_line);
+			InString PS_city = new InString(req.city);
+			InString PS_province = new InString(req.postal_code);
+			InString PS_postal_code = new InString(req.postal_code);
+
+			InString _in_not_used = new InString();
 			OutString _out_not_used = new OutString(10);
 
 			ClientImport.ProcessAddress(GetConnectionString(req.options), "CAN_AddressParse"
-				, req.recipient ?? "", _in_not_used, req.address_line ?? "", req.city ?? ""
-				, req.province ?? "", req.postal_code ?? ""
+				, PS_recipient.s, _in_not_used.s, PS_address_line.s, PS_city.s
+				, PS_province.s, PS_postal_code.s
+
 				, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 				, PS_CAN_out_address_type.s
 				, PS_CAN_out_street_number.s
@@ -573,15 +590,19 @@ namespace StreetPerfect
 				OutString PS_CAN_out_response_available = new OutString();
 				OutString PS_CAN_out_response_address_list = new OutString(expected_count * 250);
 
-				string _in_not_used = "";
+				InString PS_recipient = new InString(req.recipient);
+				InString PS_address_line = new InString(req.address_line);
+				InString PS_city = new InString(req.city);
+				InString PS_province = new InString(req.postal_code);
+				InString PS_postal_code = new InString(req.postal_code);
+
+				InString _in_not_used = new InString();
 				OutString _out_not_used = new OutString(10);
 
 				ClientImport.ProcessAddress(GetConnectionString(req.options), "CAN_AddressSearch"
-					, req.recipient ?? "", _in_not_used
-					, req.address_line ?? ""
-					, req.city ?? ""
-					, req.province ?? ""
-					, req.postal_code ?? ""
+					, PS_recipient.s, _in_not_used.s, PS_address_line.s, PS_city.s
+					, PS_province.s, PS_postal_code.s
+
 					, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 					, PS_CAN_out_response_count.s
 					, PS_CAN_out_response_available.s
@@ -639,10 +660,17 @@ namespace StreetPerfect
 			OutString PS_USA_out_state = new OutString();
 			OutString PS_USA_out_zip_code = new OutString();
 
+			InString PS_firm_name = new InString(req.firm_name);
+			InString PS_urbanization_name = new InString(req.urbanization_name);
+			InString PS_address_line = new InString(req.address_line);
+			InString PS_city = new InString(req.city);
+			InString PS_state = new InString(req.state);
+			InString PS_zip_code = new InString(req.zip_code);
+
 			OutString _out_not_used = new OutString(10);
 
 			ClientImport.ProcessAddress(GetConnectionString(req.options), "USA_AddressCorrection"
-				, req.firm_name ?? "", req.urbanization_name ?? "", req.address_line ?? "", req.city ?? "", req.state ?? "", req.zip_code ?? ""
+				, PS_firm_name.s, PS_urbanization_name.s, PS_address_line.s, PS_city.s, PS_state.s, PS_zip_code.s
 				, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 				, PS_USA_out_firm_name.s
 				, PS_USA_out_urbanization_name.s
@@ -690,11 +718,17 @@ namespace StreetPerfect
 			OutString PS_USA_out_county_name = new OutString();
 			OutString PS_USA_out_county_code = new OutString();
 
+			InString PS_firm_name = new InString(req.firm_name);
+			InString PS_urbanization_name = new InString(req.urbanization_name);
+			InString PS_address_line = new InString(req.address_line);
+			InString PS_city = new InString(req.city);
+			InString PS_state = new InString(req.state);
+			InString PS_zip_code = new InString(req.zip_code);
+
 			OutString _out_not_used = new OutString(10);
 
 			ClientImport.ProcessAddress(GetConnectionString(req.options), "USA_AddressParse"
-				, req.firm_name ?? "", req.urbanization_name ?? "", req.address_line ?? "", req.city ?? ""
-				, req.state ?? "", req.zip_code ?? ""
+				, PS_firm_name.s, PS_urbanization_name.s, PS_address_line.s, PS_city.s, PS_state.s, PS_zip_code.s
 				, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 				, PS_USA_out_address_type.s
 				, PS_USA_out_street_number.s
@@ -750,11 +784,17 @@ namespace StreetPerfect
 				OutString PS_USA_out_response_available = new OutString();
 				OutString PS_USA_out_response_address_list = new OutString(expected_count * 250);
 
+				InString PS_firm_name = new InString(req.firm_name);
+				InString PS_urbanization_name = new InString(req.urbanization_name);
+				InString PS_address_line = new InString(req.address_line);
+				InString PS_city = new InString(req.city);
+				InString PS_state = new InString(req.state);
+				InString PS_zip_code = new InString(req.zip_code);
+
 				OutString _out_not_used = new OutString(10);
 
 				ClientImport.ProcessAddress(GetConnectionString(req.options), "USA_AddressSearch"
-					, req.firm_name ?? "", req.urbanization_name ?? "", req.address_line ?? "", req.city ?? ""
-					, req.state ?? "", req.zip_code ?? ""
+					, PS_firm_name.s, PS_urbanization_name.s, PS_address_line.s, PS_city.s, PS_state.s, PS_zip_code.s
 					, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 					, PS_USA_out_response_count.s
 					, PS_USA_out_response_available.s
@@ -818,11 +858,17 @@ namespace StreetPerfect
 			OutString PS_USA_out_pmb_designator = new OutString();
 			OutString PS_USA_out_pmb_number = new OutString();
 
+			InString PS_firm_name = new InString(req.firm_name);
+			InString PS_urbanization_name = new InString(req.urbanization_name);
+			InString PS_address_line = new InString(req.address_line);
+			InString PS_city = new InString(req.city);
+			InString PS_state = new InString(req.state);
+			InString PS_zip_code = new InString(req.zip_code);
+
 			OutString _out_not_used = new OutString(10);
 
 			ClientImport.ProcessAddress(GetConnectionString(req.options), "USA_DeliveryInformation"
-				, req.firm_name ?? "", req.urbanization_name ?? "", req.address_line ?? "", req.city ?? ""
-				, req.state ?? "", req.zip_code ?? ""
+				, PS_firm_name.s, PS_urbanization_name.s, PS_address_line.s, PS_city.s, PS_state.s, PS_zip_code.s
 				, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 				, PS_USA_out_city_abbreviation.s
 				, PS_USA_out_post_office_city.s

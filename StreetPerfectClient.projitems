@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Client.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientHelpers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ClientImport.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)InString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IStreetPerfectClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OutString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SpIni.cs" />
