@@ -458,7 +458,7 @@ namespace StreetPerfect
 			InString PS_recipient = new InString(req.recipient);
 			InString PS_address_line = new InString(req.address_line);
 			InString PS_city = new InString(req.city);
-			InString PS_province = new InString(req.postal_code);
+			InString PS_province = new InString(req.province);
 			InString PS_postal_code = new InString(req.postal_code);
 
 			InString _in_not_used = new InString();
@@ -516,7 +516,7 @@ namespace StreetPerfect
 			InString PS_recipient = new InString(req.recipient);
 			InString PS_address_line = new InString(req.address_line);
 			InString PS_city = new InString(req.city);
-			InString PS_province = new InString(req.postal_code);
+			InString PS_province = new InString(req.province);
 			InString PS_postal_code = new InString(req.postal_code);
 
 			InString _in_not_used = new InString();
@@ -593,7 +593,7 @@ namespace StreetPerfect
 				InString PS_recipient = new InString(req.recipient);
 				InString PS_address_line = new InString(req.address_line);
 				InString PS_city = new InString(req.city);
-				InString PS_province = new InString(req.postal_code);
+				InString PS_province = new InString(req.province);
 				InString PS_postal_code = new InString(req.postal_code);
 
 				InString _in_not_used = new InString();
