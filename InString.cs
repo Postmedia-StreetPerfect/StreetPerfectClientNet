@@ -52,7 +52,7 @@ namespace StreetPerfectClient
 	public class InString
 	{
 		/// <summary>
-		/// We either fully encode the strings passed to SP
+		/// We either fully encode the strings and pass Byte[] to SP
 		/// OR we remove any accents
 		/// </summary>
 		public byte[] enc { 
@@ -71,7 +71,8 @@ namespace StreetPerfectClient
 		{
 			get
 			{
-				return AccentNormalizer.Normalize(str.Trim());
+				string x =  AccentNormalizer.Normalize(str.Trim());
+				return x;
 			}
 		}
 

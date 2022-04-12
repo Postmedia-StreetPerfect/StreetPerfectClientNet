@@ -366,7 +366,6 @@ namespace StreetPerfect
 			OutString PS_ARG_out_status_flag = new OutString();
 			OutString PS_ARG_out_status_messages = new OutString();
 
-
 			ClientImport.FetchAddress(GetConnectionString(req.options), req.street_number?.ToString() ?? "", req.unit_number ?? ""
 				, req.postal_code ?? ""
 				, PS_CAN_out_address_line.s, PS_CAN_out_city.s, PS_CAN_out_province.s
@@ -394,10 +393,18 @@ namespace StreetPerfect
 			OutString PS_CAN_out_format_line_five = new OutString();
 			OutString PS_ARG_out_status_flag = new OutString();
 			OutString PS_ARG_out_status_messages = new OutString();
-			string _in_not_used = "";
-			ClientImport.FormatAddress(GetConnectionString(req.options), req.address_line ?? "", req.city ?? ""
-				, req.province ?? "", req.postal_code ?? ""
-				, _in_not_used //req.country
+
+			InString PS_address_line = new InString(req.address_line);
+			InString PS_city = new InString(req.city);
+			InString PS_province = new InString(req.province);
+			InString PS_postal_code = new InString(req.postal_code);
+
+			InString _in_not_used = new InString();
+			OutString _out_not_used = new OutString(10);
+
+			ClientImport.FormatAddress(GetConnectionString(req.options)
+				, PS_address_line.s, PS_city.s, PS_province.s, PS_postal_code.s, _in_not_used.s
+
 				, PS_CAN_out_format_line_one.s, PS_CAN_out_format_line_two.s
 				, PS_CAN_out_format_line_three.s, PS_CAN_out_format_line_four.s
 				, PS_CAN_out_format_line_five.s, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s);
@@ -420,11 +427,17 @@ namespace StreetPerfect
 			OutString PS_ARG_out_function_messages = new OutString();
 			OutString PS_ARG_out_status_flag = new OutString();
 			OutString PS_ARG_out_status_messages = new OutString();
-			string _in_not_used = "";
+
+			InString PS_address_line = new InString(req.address_line);
+			InString PS_city = new InString(req.city);
+			InString PS_province = new InString(req.province);
+			InString PS_postal_code = new InString(req.postal_code);
+
+			InString _in_not_used = new InString();
+			OutString _out_not_used = new OutString(10);
 			
-			ClientImport.ValidateAddress(GetConnectionString(req.options), req.address_line ?? "", req.city ?? ""
-				, req.province ?? "", req.postal_code ?? ""
-				, _in_not_used //req.country
+			ClientImport.ValidateAddress(GetConnectionString(req.options)
+				, PS_address_line.s, PS_city.s, PS_province.s, PS_postal_code.s, _in_not_used.s
 				, PS_ARG_out_function_messages.s, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s);
 
 			return new caValidateAddressResponse()
@@ -465,8 +478,7 @@ namespace StreetPerfect
 			OutString _out_not_used = new OutString(10);
 			 
 			ClientImport.ProcessAddress(GetConnectionString(req.options), "CAN_AddressCorrection"
-				, PS_recipient.s, _in_not_used.s, PS_address_line.s, PS_city.s
-				, PS_province.s, PS_postal_code.s
+				, PS_recipient.s, _in_not_used.s, PS_address_line.s, PS_city.s, PS_province.s, PS_postal_code.s
 
 				, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 				, PS_CAN_out_recipient.s, _out_not_used.s, PS_CAN_out_address_line.s, PS_CAN_out_city.s
@@ -544,7 +556,7 @@ namespace StreetPerfect
 				, PS_CAN_out_unidentified_component.s
 				);
 
-			return new caParseResponse()
+			var ret = new caParseResponse()
 			{
 				function_messages = PS_ARG_out_function_messages.ToList(),
 				status_flag = PS_ARG_out_status_flag.ToString(),
@@ -566,6 +578,7 @@ namespace StreetPerfect
 				extra_information = NullIfEmpty(PS_CAN_out_extra_information),
 				unidentified_component = NullIfEmpty(PS_CAN_out_unidentified_component),
 			};
+			return ret;
 		}
 
 		protected string NullIfEmpty(OutString outstr)
