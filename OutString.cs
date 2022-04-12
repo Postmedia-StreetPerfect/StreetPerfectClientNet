@@ -17,7 +17,9 @@ namespace StreetPerfect.Helpers
 	{
 		protected const int _ca_result_rec_size = 235;
 		protected byte[] _s = null;
-		public OutString(int cap = 2000)
+		private static char[] _trim_chars = new char[] { ' ', '\t', '\r', '\n', '\0' };
+		private static Encoding _encoding = Encoding.GetEncoding("iso-8859-1");
+	public OutString(int cap = 2000)
 		{
 			_s = new byte[cap];
 
@@ -35,11 +37,7 @@ namespace StreetPerfect.Helpers
 		public OutString(string s, int cap = 4000)
 		{
 			_s = new Byte[cap];
-#if NETCOREAPP
-			var chars = Encoding.Latin1.GetBytes(s);
-#else
-			var chars = Encoding.Default.GetBytes(s);
-#endif
+			var chars = _encoding.GetBytes(s);
 			chars.CopyTo(_s, 0);
 		}
 
@@ -50,11 +48,8 @@ namespace StreetPerfect.Helpers
 
 		public override string ToString()
 		{
-#if NETCOREAPP
-			return Encoding.Latin1.GetString(_s).Trim();
-#else
-			return Encoding.Default.GetString(_s).Trim();
-#endif
+			var x = _encoding.GetString(_s).Trim(_trim_chars);
+			return x;
 		}
 
 		public int ToInt()
