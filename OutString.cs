@@ -19,7 +19,8 @@ namespace StreetPerfect.Helpers
 		protected byte[] _s = null;
 		private static char[] _trim_chars = new char[] { ' ', '\t', '\r', '\n', '\0' };
 		private static Encoding _encoding = Encoding.GetEncoding("iso-8859-1");
-	public OutString(int cap = 2000)
+	
+		public OutString(int cap = 2000)
 		{
 			_s = new byte[cap];
 
