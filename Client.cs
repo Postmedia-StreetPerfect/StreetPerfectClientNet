@@ -28,7 +28,7 @@ namespace StreetPerfect
 	public class StreetPerfectClient : IStreetPerfectClient
 	{
 		public const string defaulConnectionString = "ServiceAddress=127.0.0.1;ServicePort=1330;";
-		public const string Version = "11.0.1";
+		public const string Version = "11.0.2";
 		public const string License = "Copyright © 1993-2022, Postmedia Network Inc";
 
 		protected string _connection_string;
