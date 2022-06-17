@@ -85,18 +85,41 @@ namespace StreetPerfect
 					PS_ARG_out_status_flag.s,
 					PS_ARG_out_status_messages.s);
 
+			var msg_dict = new Dictionary<string, string>();
+			var msg_list = PS_CAN_out_response_address_list.ToList();
+			foreach (var m in msg_list)
+			{
+				var ms = m.Split(':', 2);
+				if (ms.Length == 2)
+				{
+					msg_dict[ms[0].Trim()] = ms[1].Trim();
+				}// no :
+				else if (m.Length > 12 && (m.StartsWith("UspsDatabase") || m.StartsWith("CdpvDatabase") || m.StartsWith("SerpDatabase")))
+				{
+					msg_dict[m.Substring(0, 12).Trim()] = m.Substring(12).Trim();
+				}
+				else
+				{
+					// just add it with a blank
+					msg_dict[m.Trim()] = "";
+				}
+			}
+
+
 			var ret = new GetInfoResponse()
 			{
-				info = PS_CAN_out_response_address_list.ToList(),
+				//info_old = msg_list,
+				info = msg_dict,
 				status_flag = PS_ARG_out_status_flag.ToString(),
 				status_messages = PS_ARG_out_status_messages.ToString()
 			};
 
-			var msg = $"CSharpClientVersionXPC:  v{Version}";
+//			var msg = $"CSharpClientVersionXPC:  v{Version}";
 #if DEBUG
-			msg += " - DEBUG";
+//			msg += " - DEBUG";
 #endif
-			ret.info.Add(msg);
+
+			ret.info["CSharpClientVersionXPC"] = $"v{ Version}";
 			ret.status_messages = ret.info.Count.ToString();
 			return ret;
 		}
