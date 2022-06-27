@@ -89,7 +89,11 @@ namespace StreetPerfect
 			var msg_list = PS_CAN_out_response_address_list.ToList();
 			foreach (var m in msg_list)
 			{
+#if NETCOREAPP
 				var ms = m.Split(':', 2);
+#else
+				var ms = m.Split(new char[] { ':' }, 2);
+#endif
 				if (ms.Length == 2)
 				{
 					msg_dict[ms[0].Trim()] = ms[1].Trim();

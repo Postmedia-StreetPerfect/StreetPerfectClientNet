@@ -33,7 +33,11 @@ namespace StreetPerfectClient
 		public static string Normalize(string accentedWord)
 		{
 			var sb = new StringBuilder();
+#if NETCOREAPP
 			foreach (var c in accentedWord.AsSpan())
+#else
+			foreach (var c in accentedWord)
+#endif
 			{
 				int pos = UNICODE.IndexOf(c);
 				if (pos > -1)
