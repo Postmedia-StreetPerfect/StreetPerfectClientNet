@@ -9,6 +9,7 @@ using StreetPerfect.Helpers;
 using StreetPerfect.Models;
 using StreetPerfect;
 using StreetPerfectClient;
+using Org.BouncyCastle.Cms;
 
 #pragma warning disable 1591
 
@@ -34,12 +35,24 @@ namespace StreetPerfect
 		protected string _connection_string;
 		protected bool _Debug = false; // this will insert the original SP records into the json responses
 
+		protected static Dictionary<string, string> _AddrTypes = new Dictionary<string, string>(){
+			{ "00", "UnknownAddressType" },
+			{ "11", "UrbanAddress" },
+			{ "21", "UrbanRouteAddress" },
+			{ "32", "RuralPoBoxAddress" },
+			{ "42", "RuralRouteAddress" },
+			{ "52", "RuralGDAddress" }
+		};
+
+
 		public string ConnectionString
 		{
-			get { 
+			get
+			{
 				return _connection_string;
 			}
-			set {
+			set
+			{
 				_connection_string = value;
 			}
 		}
@@ -118,12 +131,12 @@ namespace StreetPerfect
 				status_messages = PS_ARG_out_status_messages.ToString()
 			};
 
-//			var msg = $"CSharpClientVersionXPC:  v{Version}";
+			//			var msg = $"CSharpClientVersionXPC:  v{Version}";
 #if DEBUG
-//			msg += " - DEBUG";
+			//			msg += " - DEBUG";
 #endif
 
-			ret.info["CSharpClientVersionXPC"] = $"v{ Version}";
+			ret.info["CSharpClientVersionXPC"] = $"v{Version}";
 			ret.status_messages = ret.info.Count.ToString();
 			return ret;
 		}
@@ -173,143 +186,167 @@ namespace StreetPerfect
 			};
 		}
 
-		/* I removed these functions as they're deprecated
-		 * the new 'XPC' functions are all run from ClientImport.ProcessAddress()
-		 * 
-				public caCorrectionResponse CorrectAddress(caCorrectionRequest req)
-				{
-					// to reduce the mem footprint (a little) you can set the string initial capacity
-					// in the OutString ctor - I just haven't actually done that yet (def size is 4k)
-					OutString PS_CAN_out_address_line = new OutString();
-					OutString PS_CAN_out_city = new OutString();
-					OutString PS_CAN_out_province = new OutString();
-					OutString PS_CAN_out_postal_code = new OutString();
-					OutString PS_CAN_out_country = new OutString();
-					OutString PS_CAN_out_extra_information = new OutString();
-					OutString PS_CAN_out_unidentified_component = new OutString();
-					OutString PS_ARG_out_function_messages = new OutString();
-					OutString PS_ARG_out_status_flag = new OutString(10);
-					OutString PS_ARG_out_status_messages = new OutString(200);
+		public caCorrectionResponse CorrectAddress(caAddressRequest req)
+		{
+			// to reduce the mem footprint (a little) you can set the string initial capacity
+			// in the OutString ctor - I just haven't actually done that yet (def size is 4k)
+			OutString PS_CAN_out_address_line = new OutString();
+			OutString PS_CAN_out_city = new OutString();
+			OutString PS_CAN_out_province = new OutString();
+			OutString PS_CAN_out_postal_code = new OutString();
+			OutString PS_CAN_out_country = new OutString();
+			OutString PS_CAN_out_extra_information = new OutString();
+			OutString PS_CAN_out_unidentified_component = new OutString();
+			OutString PS_ARG_out_function_messages = new OutString();
+			OutString PS_ARG_out_status_flag = new OutString(10);
+			OutString PS_ARG_out_status_messages = new OutString(200);
 
-					ClientImport.CorrectAddress(_connection_string, req.address_line, req.city
-						, req.province, req.postal_code, req.country
-						, PS_CAN_out_address_line.s, PS_CAN_out_city.s, PS_CAN_out_province.s
-						, PS_CAN_out_postal_code.s, PS_CAN_out_country.s, PS_CAN_out_extra_information.s
-						, PS_CAN_out_unidentified_component.s, PS_ARG_out_function_messages.s
-						, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s);
+			ClientImport.CorrectAddress(GetConnectionString(req.options), req.address_line ?? "", req.city ?? ""
+				, req.province ?? "", req.postal_code ?? "", req.country ?? ""
+				, PS_CAN_out_address_line.s, PS_CAN_out_city.s, PS_CAN_out_province.s
+				, PS_CAN_out_postal_code.s, PS_CAN_out_country.s, PS_CAN_out_extra_information.s
+				, PS_CAN_out_unidentified_component.s, PS_ARG_out_function_messages.s
+				, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s);
 
-					caCorrectionResponse resp = new caCorrectionResponse() {
-						address_line = PS_CAN_out_address_line.ToString(),
-						city = PS_CAN_out_city.ToString(),
-						province = PS_CAN_out_province.ToString(),
-						postal_code = PS_CAN_out_postal_code.ToString(),
-						country = PS_CAN_out_country.ToString(),
-						extra_information = PS_CAN_out_extra_information.ToString(),
-						unidentified_component = PS_CAN_out_unidentified_component.ToString(),
-						function_messages = PS_ARG_out_function_messages.ToList(),
-						status_flag = PS_ARG_out_status_flag.ToString(),
-						status_messages = PS_ARG_out_status_messages.ToString()
-					};
+			caCorrectionResponse resp = new caCorrectionResponse()
+			{
+				address_line = PS_CAN_out_address_line.ToString(),
+				city = PS_CAN_out_city.ToString(),
+				province = PS_CAN_out_province.ToString(),
+				postal_code = PS_CAN_out_postal_code.ToString(),
+				country = PS_CAN_out_country.ToString(),
+				extra_information = NullIfEmpty(PS_CAN_out_extra_information),
+				unidentified_component = NullIfEmpty(PS_CAN_out_unidentified_component),
+				function_messages = PS_ARG_out_function_messages.ToList(),
+				status_flag = PS_ARG_out_status_flag.ToString(),
+				status_messages = PS_ARG_out_status_messages.ToString()
+			};
 
-					return resp;
-				}
+			return resp;
+		}
 
+		/* this need work, use caProcessSearch
+		public caSearchResponse SearchAddress(caAddressRequest req)
+		{
+			OutString PS_CAN_out_address_line = new OutString();
+			OutString PS_ARG_out_status_flag = new OutString();
+			OutString PS_ARG_out_status_messages = new OutString();
 
-				public caSearchAddressResponse SearchAddress(caSearchAddressRequest req)
-				{
-					OutString PS_CAN_out_address_line = new OutString();
-					OutString PS_ARG_out_status_flag = new OutString();
-					OutString PS_ARG_out_status_messages = new OutString();
-
-					ClientImport.SearchAddress(_connection_string, req.address_line, req.city, req.province
-						, req.postal_code, req.country
-						, PS_CAN_out_address_line.s, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s);
-
-					return new caSearchAddressResponse()
-					{
-						response_address_list = PS_CAN_out_address_line.ToCdcAddrList(),
-						status_flag = PS_ARG_out_status_flag.ToString(),
-						status_messages = PS_ARG_out_status_messages.ToString()
-					};
-				}
+			ClientImport.SearchAddress(GetConnectionString(req.options), req.address_line, req.city, req.province
+				, req.postal_code, req.country
+				, PS_CAN_out_address_line.s, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s);
 
 
-				public caParseAddressResponse ParseAddress(caParseAddressRequest req)
-				{
-					//this first param is IN/OUT so we need to initialize it
-					OutString PS_CAN_xxx_address_type = new OutString(req.address_type);
-					OutString PS_CAN_out_address_line = new OutString();
-					OutString PS_CAN_out_street_number = new OutString();
-					OutString PS_CAN_out_street_suffix = new OutString();
-					OutString PS_CAN_out_street_name = new OutString();
-					OutString PS_CAN_out_street_type = new OutString();
-					OutString PS_CAN_out_street_direction = new OutString();
-					OutString PS_CAN_out_unit_type = new OutString();
-					OutString PS_CAN_out_unit_number = new OutString();
-					OutString PS_CAN_out_service_type = new OutString();
-					OutString PS_CAN_out_service_number = new OutString();
-					OutString PS_CAN_out_service_area_name = new OutString();
-					OutString PS_CAN_out_service_area_type = new OutString();
-					OutString PS_CAN_out_service_area_qualifier = new OutString();
-					OutString PS_CAN_out_city = new OutString();
-					OutString PS_CAN_out_city_abbrev_long = new OutString();
-					OutString PS_CAN_out_city_abbrev_short = new OutString();
-					OutString PS_CAN_out_province = new OutString();
-					OutString PS_CAN_out_postal_code = new OutString();
-					OutString PS_CAN_out_country = new OutString();
-					OutString PS_CAN_out_cpct_information = new OutString();
-					OutString PS_CAN_out_extra_information = new OutString();
-					OutString PS_CAN_out_unidentified_component = new OutString();
-					OutString PS_ARG_out_function_messages = new OutString();
-					OutString PS_ARG_out_status_flag = new OutString();
-					OutString PS_ARG_out_status_messages = new OutString();
 
-					ClientImport.ParseAddress(_connection_string
-						, req.address_line, req.city, req.province
-						, req.postal_code, req.country
-						, PS_CAN_xxx_address_type.s
-						, PS_CAN_out_address_line.s, PS_CAN_out_street_number.s, PS_CAN_out_street_suffix.s
-						, PS_CAN_out_street_name.s, PS_CAN_out_street_type.s, PS_CAN_out_street_direction.s
-						, PS_CAN_out_unit_type.s, PS_CAN_out_unit_number.s, PS_CAN_out_service_type.s
-						, PS_CAN_out_service_number.s, PS_CAN_out_service_area_name.s, PS_CAN_out_service_area_type.s
-						, PS_CAN_out_service_area_qualifier.s, PS_CAN_out_city.s, PS_CAN_out_city_abbrev_long.s
-						, PS_CAN_out_city_abbrev_short.s, PS_CAN_out_province.s, PS_CAN_out_postal_code.s
-						, PS_CAN_out_country.s, PS_CAN_out_cpct_information.s, PS_CAN_out_extra_information.s
-						, PS_CAN_out_unidentified_component.s, PS_ARG_out_function_messages.s, PS_ARG_out_status_flag.s
-						, PS_ARG_out_status_messages.s);
+			return new caSearchResponse()
+			{
+				response_address_list = PS_CAN_out_address_line.ToCdcAddrList(),
+				status_flag = PS_ARG_out_status_flag.ToString(),
+				status_messages = PS_ARG_out_status_messages.ToString()
+			};
+		}
+		*/
 
-					return new caParseAddressResponse()
-					{
-						address_type = PS_CAN_xxx_address_type.ToString(),
-						address_line = PS_CAN_out_address_line.ToString(),
-						street_number = PS_CAN_out_street_number.ToString(),
-						street_suffix = PS_CAN_out_street_suffix.ToString(),
-						street_name = PS_CAN_out_street_name.ToString(),
-						street_type = PS_CAN_out_street_type.ToString(),
-						street_direction = PS_CAN_out_street_direction.ToString(),
-						unit_type = PS_CAN_out_unit_type.ToString(),
-						unit_number = PS_CAN_out_unit_number.ToString(),
-						service_type = PS_CAN_out_service_type.ToString(),
-						service_number = PS_CAN_out_service_number.ToString(),
-						service_area_name = PS_CAN_out_service_area_name.ToString(),
-						service_area_type = PS_CAN_out_service_area_type.ToString(),
-						service_area_qualifier = PS_CAN_out_service_area_qualifier.ToString(),
-						city = PS_CAN_out_city.ToString(),
-						city_abbrev_long = PS_CAN_out_city_abbrev_long.ToString(),
-						city_abbrev_short = PS_CAN_out_city_abbrev_short.ToString(),
-						province = PS_CAN_out_province.ToString(),
-						postal_code = PS_CAN_out_postal_code.ToString(),
-						country = PS_CAN_out_country.ToString(),
-						cpct_information = PS_CAN_out_cpct_information.ToString(),
-						extra_information = PS_CAN_out_extra_information.ToString(),
-						unidentified_component = PS_CAN_out_unidentified_component.ToString(),
-						function_messages = PS_ARG_out_function_messages.ToString(),
-						status_flag = PS_ARG_out_status_flag.ToString(),
-						status_messages = PS_ARG_out_status_messages.ToString(),
-					};
-				}
-				*/
 
+		/// <summary>
+		/// Parse function with special operations
+		/// 
+		/// Parse Option + Canadian Flag
+		/// 'C' + 'C' = Correct &amp; Parse Normal
+		/// 'G' + 'C' = GUI Capture &amp; Parse Normal
+		/// 'P' + 'C' = Parse Any
+		/// 'V' + 'C' = Validate &amp; Parse Normal
+		/// 
+		/// Parse Option + Foreign Flag
+		/// 'C' + 'F' = Correct &amp; Parse Normal
+		/// 'G' + 'F' = GUI Capture &amp; Parse Normal
+		/// 'P' + 'F' = Parse Any
+		/// 'V' + 'F' = Validate &amp; Parse Normal
+		/// </summary>
+		/// <param name="parse_op">parse option</param>
+		/// <param name="req">address request</param>
+		/// <returns></returns>
+		public caParseResponse ParseAddress(string parse_op, caAddressRequest req)
+		{
+			//this first param is IN/OUT so we need to initialize it
+			OutString PS_CAN_xxx_address_type = new OutString(parse_op ?? "");
+			
+			OutString PS_CAN_out_address_line = new OutString();
+			OutString PS_CAN_out_street_number = new OutString();
+			OutString PS_CAN_out_street_suffix = new OutString();
+			OutString PS_CAN_out_street_name = new OutString();
+			OutString PS_CAN_out_street_type = new OutString();
+			OutString PS_CAN_out_street_direction = new OutString();
+			OutString PS_CAN_out_unit_type = new OutString();
+			OutString PS_CAN_out_unit_number = new OutString();
+			OutString PS_CAN_out_service_type = new OutString();
+			OutString PS_CAN_out_service_number = new OutString();
+			OutString PS_CAN_out_service_area_name = new OutString();
+			OutString PS_CAN_out_service_area_type = new OutString();
+			OutString PS_CAN_out_service_area_qualifier = new OutString();
+			OutString PS_CAN_out_city = new OutString();
+			OutString PS_CAN_out_city_abbrev_long = new OutString();
+			OutString PS_CAN_out_city_abbrev_short = new OutString();
+			OutString PS_CAN_out_province = new OutString();
+			OutString PS_CAN_out_postal_code = new OutString();
+			OutString PS_CAN_out_country = new OutString();
+			OutString PS_CAN_out_cpct_information = new OutString();
+			OutString PS_CAN_out_extra_information = new OutString();
+			OutString PS_CAN_out_unidentified_component = new OutString();
+			OutString PS_ARG_out_function_messages = new OutString();
+			OutString PS_ARG_out_status_flag = new OutString();
+			OutString PS_ARG_out_status_messages = new OutString();
+
+			ClientImport.ParseAddress(GetConnectionString(req.options)
+				, req.address_line ?? "", req.city ?? "", req.province ?? ""
+				, req.postal_code ?? "", req.country ?? ""
+				, PS_CAN_xxx_address_type.s
+				, PS_CAN_out_address_line.s, PS_CAN_out_street_number.s, PS_CAN_out_street_suffix.s
+				, PS_CAN_out_street_name.s, PS_CAN_out_street_type.s, PS_CAN_out_street_direction.s
+				, PS_CAN_out_unit_type.s, PS_CAN_out_unit_number.s, PS_CAN_out_service_type.s
+				, PS_CAN_out_service_number.s, PS_CAN_out_service_area_name.s, PS_CAN_out_service_area_type.s
+				, PS_CAN_out_service_area_qualifier.s, PS_CAN_out_city.s, PS_CAN_out_city_abbrev_long.s
+				, PS_CAN_out_city_abbrev_short.s, PS_CAN_out_province.s, PS_CAN_out_postal_code.s
+				, PS_CAN_out_country.s, PS_CAN_out_cpct_information.s, PS_CAN_out_extra_information.s
+				, PS_CAN_out_unidentified_component.s, PS_ARG_out_function_messages.s, PS_ARG_out_status_flag.s
+				, PS_ARG_out_status_messages.s);
+
+			var addr_type = PS_CAN_xxx_address_type.ToString();
+			_AddrTypes.TryGetValue(addr_type,  out string addr_type_desc);
+
+			return new caParseResponse()
+			{
+				recipient = req.recipient?.Trim(),
+				address_type = addr_type,
+				address_type_desc = addr_type_desc,
+				address_line = NullIfEmpty(PS_CAN_out_address_line),
+				street_number = NullIfEmpty(PS_CAN_out_street_number),
+				street_suffix = NullIfEmpty(PS_CAN_out_street_suffix),
+				street_name = NullIfEmpty(PS_CAN_out_street_name),
+				street_type = NullIfEmpty(PS_CAN_out_street_type),
+				street_direction = NullIfEmpty(PS_CAN_out_street_direction),
+				unit_type = NullIfEmpty(PS_CAN_out_unit_type),
+				unit_number = NullIfEmpty(PS_CAN_out_unit_number),
+				service_type = NullIfEmpty(PS_CAN_out_service_type),
+				service_number = NullIfEmpty(PS_CAN_out_service_number),
+				service_area_name = NullIfEmpty(PS_CAN_out_service_area_name),
+				service_area_type = NullIfEmpty(PS_CAN_out_service_area_type),
+				service_area_qualifier = NullIfEmpty(PS_CAN_out_service_area_qualifier),
+				city = NullIfEmpty(PS_CAN_out_city),
+				city_abbrev_long = NullIfEmpty(PS_CAN_out_city_abbrev_long),
+				city_abbrev_short = NullIfEmpty(PS_CAN_out_city_abbrev_short),
+				province = NullIfEmpty(PS_CAN_out_province),
+				postal_code = NullIfEmpty(PS_CAN_out_postal_code),
+				country = NullIfEmpty(PS_CAN_out_country),
+				cpct_information = NullIfEmpty(PS_CAN_out_cpct_information),
+				extra_information = NullIfEmpty(PS_CAN_out_extra_information),
+				unidentified_component = NullIfEmpty(PS_CAN_out_unidentified_component),
+
+				function_messages = PS_ARG_out_function_messages.ToList(),
+				status_flag = PS_ARG_out_status_flag.ToString(),
+				status_messages = PS_ARG_out_status_messages.ToString()
+			};
+		}
 
 		public virtual caQueryResponse caQuery(caQueryRequest req)
 		{
@@ -324,9 +361,9 @@ namespace StreetPerfect
 
 			int buf_size = 1000000;
 			if (req.query_option >= 70)
-				buf_size = 480 * (max_returned+1); 
+				buf_size = 480 * (max_returned + 1);
 			else if (req.query_option >= 60)
-				buf_size = 240 * (max_returned+1);
+				buf_size = 240 * (max_returned + 1);
 			else if (req.query_option > 30)
 				buf_size = 30000;
 			else if (req.query_option == 16)
@@ -358,8 +395,9 @@ namespace StreetPerfect
 			resp.function_messages = PS_ARG_out_function_messages.ToList();
 			resp.status_flag = PS_ARG_out_status_flag.ToString();
 			resp.status_messages = PS_ARG_out_status_messages.ToString();
-			 
-			switch (req.query_option){
+
+			switch (req.query_option)
+			{
 				case 11:
 				case 20:
 				case 21:
@@ -462,7 +500,7 @@ namespace StreetPerfect
 
 			InString _in_not_used = new InString();
 			OutString _out_not_used = new OutString(10);
-			
+
 			ClientImport.ValidateAddress(GetConnectionString(req.options)
 				, PS_address_line.s, PS_city.s, PS_province.s, PS_postal_code.s, _in_not_used.s
 				, PS_ARG_out_function_messages.s, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s);
@@ -475,7 +513,7 @@ namespace StreetPerfect
 			};
 		}
 
-	
+
 
 
 		public virtual caCorrectionResponse caProcessCorrection(caAddressRequest req)
@@ -500,10 +538,11 @@ namespace StreetPerfect
 			InString PS_city = new InString(req.city);
 			InString PS_province = new InString(req.province);
 			InString PS_postal_code = new InString(req.postal_code);
+			InString PS_country = new InString(req.country);
 
 			InString _in_not_used = new InString();
 			OutString _out_not_used = new OutString(10);
-			 
+
 			ClientImport.ProcessAddress(GetConnectionString(req.options), "CAN_AddressCorrection"
 				, PS_recipient.s, _in_not_used.s, PS_address_line.s, PS_city.s, PS_province.s, PS_postal_code.s
 
@@ -518,13 +557,14 @@ namespace StreetPerfect
 				status_flag = PS_ARG_out_status_flag.ToString(),
 				status_messages = PS_ARG_out_status_messages.ToString(),
 
-				recipient = PS_CAN_out_recipient.ToString(),
+				recipient = NullIfEmpty(PS_CAN_out_recipient),
 				address_line = PS_CAN_out_address_line.ToString(),
 				city = PS_CAN_out_city.ToString(),
 				postal_code = PS_CAN_out_postal_code.ToString(),
 				province = PS_CAN_out_province.ToString(),
-				extra_information = PS_CAN_out_extra_information.ToString(),
-				unidentified_component = PS_CAN_out_unidentified_component.ToString(),
+				country = "CAN", //gota hard code it
+				extra_information = NullIfEmpty(PS_CAN_out_extra_information),
+				unidentified_component = NullIfEmpty(PS_CAN_out_unidentified_component),
 				msecs = sw.ElapsedMilliseconds
 			};
 		}
@@ -561,6 +601,7 @@ namespace StreetPerfect
 			InString _in_not_used = new InString();
 			OutString _out_not_used = new OutString(10);
 
+
 			ClientImport.ProcessAddress(GetConnectionString(req.options), "CAN_AddressParse"
 				, PS_recipient.s, _in_not_used.s, PS_address_line.s, PS_city.s
 				, PS_province.s, PS_postal_code.s
@@ -583,13 +624,17 @@ namespace StreetPerfect
 				, PS_CAN_out_unidentified_component.s
 				);
 
+			var addr_type = PS_CAN_out_address_type.ToString();
+			_AddrTypes.TryGetValue(addr_type, out string addr_type_desc);
+
 			var ret = new caParseResponse()
 			{
 				function_messages = PS_ARG_out_function_messages.ToList(),
 				status_flag = PS_ARG_out_status_flag.ToString(),
 				status_messages = PS_ARG_out_status_messages.ToString(),
 
-				address_type = PS_CAN_out_address_type.ToString(),
+				address_type = addr_type,
+				address_type_desc = addr_type_desc,
 				street_number = NullIfEmpty(PS_CAN_out_street_number),
 				street_suffix = NullIfEmpty(PS_CAN_out_street_suffix),
 				street_name = NullIfEmpty(PS_CAN_out_street_name),
@@ -603,7 +648,7 @@ namespace StreetPerfect
 				service_area_type = NullIfEmpty(PS_CAN_out_service_area_type),
 				service_area_qualifier = NullIfEmpty(PS_CAN_out_service_area_qualifier),
 				extra_information = NullIfEmpty(PS_CAN_out_extra_information),
-				unidentified_component = NullIfEmpty(PS_CAN_out_unidentified_component),
+				unidentified_component = NullIfEmpty(PS_CAN_out_unidentified_component)
 			};
 			return ret;
 		}
@@ -875,7 +920,7 @@ namespace StreetPerfect
 			throw new Exception("requery failed to return all expected results");
 		}
 
-			   
+
 
 		public virtual usDeliveryInformationResponse usProcessDeliveryInfo(usAddressRequest req)
 		{
@@ -956,7 +1001,7 @@ namespace StreetPerfect
 			// disabled for now
 			// we should validate all of them
 			if (options != null)
-			{ 
+			{
 				if (!String.IsNullOrWhiteSpace(options.PreferredLanguageStyle) && options.PreferredLanguageStyle.Length == 1)
 				{
 					buf.AppendFormat("PreferredLanguageStyle={0};", options.PreferredLanguageStyle.ToUpper()[0]);
@@ -1014,7 +1059,7 @@ namespace StreetPerfect
 				{
 					buf.AppendFormat("ErrorTolerance={0};", options.ErrorTolerance);
 				}
-				
+
 			}
 
 			return buf.ToString();

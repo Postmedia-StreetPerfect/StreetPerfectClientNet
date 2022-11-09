@@ -66,33 +66,48 @@ namespace StreetPerfect.Controllers
 		// POST: api/ca/parse
 		/// <summary>
 		/// 
-		/// Parse a Canadian address
+		/// Address Parse function with special operations
 		/// 
 		/// </summary>
 		/// <remarks>
 		/// Sample request:
 		///
-		///     POST /api/ca/parse
+		///     POST /api/ca/parse/CC
 		///
+		/// Parse Operation + Canadian Flag (C)
+		/// * CC = Correct &amp; Parse Normal
+		/// * PC = Parse Any
+		/// * VC = Validate &amp; Parse Normal
+		/// 
+		/// Parse Operation + Foreign Flag (F)
+		/// * CF = Correct &amp; Parse Normal
+		/// * PF = Parse Any
+		/// * VF = Validate &amp; Parse Normal
+		/// 		
 		/// </remarks>
+		/// <param name="parse_op">2 letter parse option</param>
 		/// <param name="req">A caAddressRequest object</param>
 		/// <response code="200">Returns caParseResponse</response>
 		/// <response code="400">If invalid parameter</response>   
 		/// <response code="502">StreetPerfect API error</response>   
-		[HttpPost("parse")]
-		public ActionResult<caParseResponse> ca_parse([FromBody] caAddressRequest req)
+		[HttpPost("parse/{parse_op?}")]
+		public ActionResult<caParseResponse> ca_parse([FromBody] caAddressRequest req, string parse_op = null)
 		{
 			try
 			{
-				var ret = _Client.caProcessParse(req);
-				EndpointSuccessfull();
-				return ret;
+				if (req != null)
+				{
+					var ret = _Client.ParseAddress(parse_op, req);
+					EndpointSuccessfull();
+					return ret;
+				}
 			}
 			catch (Exception ex)
 			{
 				EndpointException(ex, req);
 				return StatusCode(502, new { err = ex.Message });
 			}
+			return null;
 		}
 
 

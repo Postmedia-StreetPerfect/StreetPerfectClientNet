@@ -21,6 +21,7 @@ namespace StreetPerfect
 		caCorrectionResponse caProcessCorrection(caAddressRequest req);
 		caParseResponse caProcessParse(caAddressRequest req);
 		caSearchResponse caProcessSearch(caAddressRequest req);
+		caParseResponse ParseAddress(string parse_op, caAddressRequest req);
 
 		usCorrectionResponse usProcessCorrection(usAddressRequest req);
 		usParseResponse usProcessParse(usAddressRequest req);
