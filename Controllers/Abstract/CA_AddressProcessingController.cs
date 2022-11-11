@@ -98,7 +98,7 @@ namespace StreetPerfect.Controllers
 				if (req != null)
 				{
 					var ret = _Client.ParseAddress(parse_op, req);
-					EndpointSuccessfull();
+					EndpointSuccessfull("/api/1/ca/parse");
 					return ret;
 				}
 			}
