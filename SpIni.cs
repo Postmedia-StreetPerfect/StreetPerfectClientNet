@@ -16,9 +16,9 @@ namespace StreetPerfect
 	///	var host = ini.Get(SpIni.Section.StreetPerfectService, "Serviceaddress");
 	///	var port = ini.GetInt(SpIni.Section.StreetPerfectService, "Serviceport");
 	/// 
-	/// For dependancy injection I didn't want a failed ini load to prevent app startup so,
-	/// You can still try loading at startup but a failed load only sets lastError which you can get via teh interface
-	/// Call "Check()" just after injection to test for load error or if teh ini file has changed
+	/// For dependency injection I didn't want a failed ini load to prevent app startup so,
+	/// You can still try loading at startup but a failed load only sets lastError which you can get via the interface
+	/// Call "Check()" just after injection to test for load error or if the ini file has changed
 	/// 
 	/// </summary>
 	/// 
