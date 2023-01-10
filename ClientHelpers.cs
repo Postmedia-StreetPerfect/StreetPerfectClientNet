@@ -22,9 +22,10 @@ namespace StreetPerfect.Helpers
 		protected static int[] CA_rec_pos = { 0, 1, 2, 4, 34, 64, 70, 72, 73, 79, 80, 86, 92, 93, 99, 129, 134, 139, 141, 145, 175, 180, 195, 200, 205, 207, 211, 221, 227, 228, 229 };
 		protected static int[] CA_rec_len = { 1, 1, 2, 30, 30, 6, 2, 1, 6, 1, 6, 6, 1, 6, 30, 5, 5, 2, 4, 30, 5, 15, 5, 5, 2, 4, 10, 6, 1, 1, 3 };
 		protected const int CA_num_fields = 31;
-		public const int min_rec_len = 232;
+        //public const int min_rec_len = 232;
+        public const int min_rec_len = 229; //minus the country code
 
-		public static caAddress MakeCaAddressObject (string sp_addr_str, bool add_orig = false)
+        public static caAddress MakeCaAddressObject (string sp_addr_str, bool add_orig = false)
 		{
 			caAddress newRec = new caAddress();
 			if (add_orig)
