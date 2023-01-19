@@ -11,8 +11,9 @@ namespace StreetPerfect
 	{
 		string ConnectionString { get; set; }
 		bool Debug { get; set; }
+        string ExtraRequestArgs { get; set; }
 
-		GetInfoResponse GetInfo();
+        GetInfoResponse GetInfo();
 
 		caQueryResponse caQuery(caQueryRequest req);
 		caFetchAddressResponse caFetchAddress(caFetchAddressRequest req);

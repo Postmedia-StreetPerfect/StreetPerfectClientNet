@@ -68,7 +68,9 @@ namespace StreetPerfect
 			}
 		}
 
-		public StreetPerfectClient(string connectionString, bool debug = false)
+		public string ExtraRequestArgs { get; set; }
+
+        public StreetPerfectClient(string connectionString, bool debug = false)
 		{
 			_connection_string = connectionString.Trim();
 			_Debug = debug;
@@ -77,7 +79,8 @@ namespace StreetPerfect
 			{
 				_connection_string += ';';
 			}
-		}
+
+        }
 
 		public virtual GetInfoResponse GetInfo()
 		{
@@ -1060,7 +1063,10 @@ namespace StreetPerfect
 				}
 
 			}
-
+			if (!String.IsNullOrWhiteSpace(ExtraRequestArgs))
+			{
+				buf.AppendFormat(";{0}", ExtraRequestArgs);
+			}
 			return buf.ToString();
 		}
 
