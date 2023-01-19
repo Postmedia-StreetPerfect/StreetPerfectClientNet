@@ -28,8 +28,8 @@ namespace StreetPerfect
 	public class StreetPerfectClient : IStreetPerfectClient
 	{
 		public const string defaulConnectionString = "ServiceAddress=127.0.0.1;ServicePort=1330;";
-		public const string Version = "12.0.0";
-		public const string License = "Copyright © 1993-2022, Postmedia Network Inc";
+		public const string Version = "12.0.1";
+		public const string License = "Copyright © 1993-2023, Postmedia Network Inc";
 
 		protected string _connection_string;
 		protected bool _Debug = false; // this will insert the original SP records into the json responses
