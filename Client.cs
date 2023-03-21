@@ -139,7 +139,7 @@ namespace StreetPerfect
 #endif
 
 			ret.info["CSharpClientVersionXPC"] = $"v{Version}";
-			ret.status_messages = ret.info.Count.ToString();
+			//ret.status_messages = ret.info.Count.ToString();
 			return ret;
 		}
 
