@@ -50,7 +50,7 @@ namespace StreetPerfect.Controllers
 			try
 			{
 				var ret = _Client.caQuery(req);
-				EndpointSuccessfull();
+				EndpointSuccessful();
 				return ret;
 			}
 			catch (Exception ex)

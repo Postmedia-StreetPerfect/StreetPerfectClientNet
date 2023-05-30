@@ -46,7 +46,7 @@ namespace StreetPerfect.Controllers
 			try
 			{
 				var ret = _Client.usProcessCorrection(req);
-				EndpointSuccessfull();
+				EndpointSuccessful();
 				return ret;
 			}
 			catch (Exception ex)
@@ -79,7 +79,7 @@ namespace StreetPerfect.Controllers
 			try
 			{
 				var ret = _Client.usProcessParse(req);
-				EndpointSuccessfull();
+				EndpointSuccessful();
 				return ret;
 			}
 			catch (Exception ex)
@@ -119,7 +119,7 @@ namespace StreetPerfect.Controllers
 			try
 			{
 				var ret = _Client.usProcessSearch(req);
-				EndpointSuccessfull();
+				EndpointSuccessful();
 				return ret;
 			}
 			catch (Exception ex)

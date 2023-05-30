@@ -52,7 +52,7 @@ namespace StreetPerfect.Controllers
 			try
 			{
 				var ret = _Client.caProcessCorrection(req);
-				EndpointSuccessfull();
+				EndpointSuccessful();
 				return ret;
 			}
 			catch (Exception ex)
@@ -98,7 +98,7 @@ namespace StreetPerfect.Controllers
 				if (req != null)
 				{
 					var ret = _Client.ParseAddress(parse_op, req);
-					EndpointSuccessfull("/parse");
+					EndpointSuccessful("/parse");
 					return ret;
 				}
 			}
@@ -139,7 +139,7 @@ namespace StreetPerfect.Controllers
 			try
 			{
 				var ret = _Client.caProcessSearch(req);
-				EndpointSuccessfull();
+				EndpointSuccessful();
 				return ret;
 			}
 			catch (Exception ex)
@@ -172,7 +172,7 @@ namespace StreetPerfect.Controllers
 			try
 			{
 				var ret = _Client.caFetchAddress(req);
-				EndpointSuccessfull();
+				EndpointSuccessful();
 				return ret;
 			}
 			catch (Exception ex)
@@ -205,7 +205,7 @@ namespace StreetPerfect.Controllers
 			try
 			{
 				var ret = _Client.caFormatAddress(req);
-				EndpointSuccessfull();
+				EndpointSuccessful();
 				return ret;
 			}
 			catch (Exception ex)
@@ -238,7 +238,7 @@ namespace StreetPerfect.Controllers
 			try
 			{
 				var ret = _Client.caValidateAddress(req);
-				EndpointSuccessfull();
+				EndpointSuccessful();
 				return ret;
 			}
 			catch (Exception ex)
