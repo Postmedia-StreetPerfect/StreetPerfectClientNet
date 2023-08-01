@@ -10,6 +10,10 @@ namespace StreetPerfect
     /// the actual spaa dll import class
     /// note that we require the "XPC" version of the client lib
     /// this is thread safe and will auto connect/disconnect to the SPAA server
+    /// You can optionally define SPAA_LPC and SPAA_SPC
+    /// LPC runs the db locally and is not thread safe (use Connect/Disconnect)
+    /// SPC connections remotely but isn't thread safe either (use Connect/Disconnect)
+    /// It is strongly recommended to use the default XPC
     /// </summary>
     public static class ClientImport
     {
