@@ -21,29 +21,28 @@ namespace StreetPerfect
         // yes we could import the 32 bit Xpc lib as well	
         // might dynamically load the dlls at some point
 
-#if DEBUG
+#if SPAA_DEBUG
 #if SPAA_LPC
 			public const string _dll = "SpaaSqaLpcClientNim64_d.Dll";
 #elif SPAA_SPC
 			public const string _dll = "SpaaSqaSpcClientNim64_d.Dll";
 #else
-        public const string _dll = "SpaaSqaXpcClientNim64_d.Dll";
+            public const string _dll = "SpaaSqaXpcClientNim64_d.Dll";
 #endif
 #else
-		public const string _dll = "SpaaSqaXpcClientNim64.Dll";
 #if SPAA_LPC
 			public const string _dll = "SpaaSqaLpcClientNim64.Dll";
 #elif SPAA_SPC
 			public const string _dll = "SpaaSqaSpcClientNim64.Dll";
 #else
-			public const string _dll = "SpaaSqaXpcClientNim64.Dll";
+            public const string _dll = "SpaaSqaXpcClientNim64.Dll";
 #endif
 
 #endif
 
 #elif LINUX
 
-#if DEBUG
+#if SPAA_DEBUG
 
 #if SPAA_LPC
 			public const string _dll = "libSpaaSqaLpcClientNim64_d.so";
