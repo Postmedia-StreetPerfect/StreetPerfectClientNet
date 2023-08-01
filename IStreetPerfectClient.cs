@@ -15,7 +15,11 @@ namespace StreetPerfect
 
         GetInfoResponse GetInfo();
 
-		caQueryResponse caQuery(caQueryRequest req);
+		ConnectionResponse Connect(string param = null);
+		ConnectionResponse Disconnect();
+
+
+        caQueryResponse caQuery(caQueryRequest req);
 		caFetchAddressResponse caFetchAddress(caFetchAddressRequest req);
 		caFormatAddressResponse caFormatAddress(caFormatAddressRequest req);
 		caValidateAddressResponse caValidateAddress(caValidateAddressRequest req);

@@ -12,7 +12,7 @@ using StreetPerfectClient;
 
 #pragma warning disable 1591
 
-// the street perfect client wrapper for .Net (5+)
+// the street perfect client wrapper for .Net (5+) (actually runs under .Net 4 as well)
 // all parameters have been rolled into simple request and response objects
 namespace StreetPerfect
 {
@@ -22,12 +22,20 @@ namespace StreetPerfect
 	/// Fundamentally marshals the request and response objects to and from the low level 
 	/// discrete parameter model - now we're all ready for serialization!
 	/// note this class is thread safe - as is/must be the low level api
-	/// To use, create a single instance, or better, create a singleton dependancy service and inject (see Startup.c#)
+	/// To use, create a single instance, or better, create a singleton dependency service and inject (see Startup.c#)
 	/// everything is virtual for an easy override if required
+	/// 
+	/// New 12.0.5, Aug 2023
+	/// Added LPC and SPC dll imports
+	/// LPC = The database loads and executes locally and in process -- define SPAA_LPC
+	/// SPC = Single threaded Client connects to a running StreetPerfect service instance -- define SPAA_SPC
+	/// XPC = (default) Multi threaded Client connects to a running StreetPerfect service instance
+	/// 
 	/// </summary>
 	public class StreetPerfectClient : IStreetPerfectClient
 	{
-		public const string defaulConnectionString = "ServiceAddress=127.0.0.1;ServicePort=1330;";
+		public const string defaultConnectionString = "ServiceAddress=127.0.0.1;ServicePort=1330;";
+
 		public const string Version = "12.0.5";
 		public const string License = "Copyright © 1993-2023, Postmedia Network Inc";
 
@@ -74,12 +82,6 @@ namespace StreetPerfect
 		{
 			_connection_string = connectionString.Trim();
 			_Debug = debug;
-
-			if (!_connection_string.EndsWith(";"))
-			{
-				_connection_string += ';';
-			}
-
         }
 
 		public virtual GetInfoResponse GetInfo()
@@ -89,7 +91,7 @@ namespace StreetPerfect
 			OutString PS_ARG_out_status_flag = new OutString(10);
 			OutString PS_ARG_out_status_messages = new OutString(200);
 
-			ClientImport.QueryAddress(_connection_string,
+			ClientImport.QueryAddress(ConnectionString,
 					"99",
 					"",
 					"",
@@ -133,12 +135,17 @@ namespace StreetPerfect
 				status_messages = PS_ARG_out_status_messages.ToString()
 			};
 
-			//			var msg = $"CSharpClientVersionXPC:  v{Version}";
+            //			var msg = $"CSharpClientVersionXPC:  v{Version}";
 #if DEBUG
-			//			msg += " - DEBUG";
+            //			msg += " - DEBUG";
 #endif
-
-			ret.info["CSharpClientVersionXPC"] = $"v{Version}";
+#if SPAA_LPC
+			ret.info["CSharpClientVersionLPC"] = $"v{Version}";
+#elif SPAA_SPC
+			ret.info["CSharpClientVersionSPC"] = $"v{Version}";
+#else
+            ret.info["CSharpClientVersionXPC"] = $"v{Version}";
+#endif
 			//ret.status_messages = ret.info.Count.ToString();
 			return ret;
 		}
@@ -149,12 +156,12 @@ namespace StreetPerfect
 		/// SPC expects the same thread so this won't work anyway in this environment - even if you lock access
 		/// </summary>
 		/// <returns></returns>
-		public virtual ConnectionResponse Connect()
+		public virtual ConnectionResponse Connect(string ini_file)
 		{
 			OutString PS_ARG_out_status_flag = new OutString(10);
 			OutString PS_ARG_out_status_messages = new OutString(200);
 
-			IntPtr ret = ClientImport.Connect(_connection_string,
+			IntPtr ret = ClientImport.Connect(ini_file,
 					PS_ARG_out_status_flag.s,
 					PS_ARG_out_status_messages.s
 			);
@@ -176,7 +183,7 @@ namespace StreetPerfect
 			OutString PS_ARG_out_status_flag = new OutString(10);
 			OutString PS_ARG_out_status_messages = new OutString(200);
 
-			IntPtr ret = ClientImport.Disconnect(_connection_string,
+			IntPtr ret = ClientImport.Disconnect("",
 					PS_ARG_out_status_flag.s,
 					PS_ARG_out_status_messages.s
 			);
@@ -188,7 +195,7 @@ namespace StreetPerfect
 			};
 		}
 
-		public caCorrectionResponse CorrectAddress(caAddressRequest req)
+            public caCorrectionResponse CorrectAddress(caAddressRequest req)
 		{
 			// to reduce the mem footprint (a little) you can set the string initial capacity
 			// in the OutString ctor - I just haven't actually done that yet (def size is 4k)
@@ -999,7 +1006,7 @@ namespace StreetPerfect
 
 		protected string GetConnectionString(Options options)
 		{
-			var buf = new StringBuilder(_connection_string);
+			var buf = new StringBuilder(ConnectionString);
 			// disabled for now
 			// we should validate all of them
 			if (options != null)
