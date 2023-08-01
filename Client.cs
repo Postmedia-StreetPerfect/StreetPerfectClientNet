@@ -1007,8 +1007,7 @@ namespace StreetPerfect
 		protected string GetConnectionString(Options options)
 		{
 			var buf = new StringBuilder(ConnectionString);
-			// disabled for now
-			// we should validate all of them
+
 			if (options != null)
 			{
 				if (!String.IsNullOrWhiteSpace(options.PreferredLanguageStyle) && options.PreferredLanguageStyle.Length == 1)
