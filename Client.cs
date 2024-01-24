@@ -25,7 +25,7 @@ namespace StreetPerfect
 	/// To use, create a single instance, or better, create a singleton dependency service and inject (see Startup.c#)
 	/// everything is virtual for an easy override if required
 	/// 
-	/// New 12.0.5, Aug 2023
+	/// New 12.0.5, Aug 2023 
 	/// Added LPC and SPC dll imports
 	/// LPC = The database loads and executes locally and in process -- define SPAA_LPC
 	/// SPC = Single threaded Client connects to a running StreetPerfect service instance -- define SPAA_SPC
