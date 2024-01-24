@@ -11,9 +11,21 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace StreetPerfect.Controllers.API.V1
+namespace StreetPerfect.Controllers
 {
-	[ApiController]
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public class TestApiRequest
+    {
+        public string TestStringIn { get; set; }
+    }
+
+    [ApiExplorerSettings(IgnoreApi = true)]
+    public class TestApiResponse
+    {
+        public string TestStringOut { get; set; }
+    }
+
+    [ApiController]
     public abstract class _CA_TypeaheadController : StreetPerfectBaseController
 	{
 		private readonly IStreetPerfectCA _SpCaInterface;
@@ -23,7 +35,7 @@ namespace StreetPerfect.Controllers.API.V1
 		private const string FORMAT_API = "/api/1/ca/format";
 
 		public _CA_TypeaheadController(IStreetPerfectCA SpCaInterface
-			, IStreetPerfectClient v1Client, ILogger<CA_TypeaheadController> logger) : base(logger)
+			, IStreetPerfectClient v1Client, ILogger logger) : base(logger)
 		{
 			_SpCaInterface = SpCaInterface;
 			_v1Client = v1Client;

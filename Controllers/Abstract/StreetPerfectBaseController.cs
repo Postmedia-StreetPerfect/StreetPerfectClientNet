@@ -25,10 +25,16 @@ namespace StreetPerfect.Controllers
 			_logger = logger;
 		}
 
-		protected virtual void EndpointSuccessfull()
+		protected virtual void EndpointSuccessful(string uri_end = null)
 		{
 		}
-		protected virtual void EndpointException(Exception e, object req)
+
+        protected virtual void UpdateUsageUri(string method, string uri)
+		{
+
+		}
+
+        protected virtual void EndpointException(Exception e, object req)
 		{
 			_logger.LogCritical(e, "Exception {Path}, {Message}, req= {@req}", Request.Path.Value.ToString(), e.Message, req);
 		}

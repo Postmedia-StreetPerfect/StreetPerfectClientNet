@@ -120,7 +120,7 @@ namespace StreetPerfect.Controllers
 						address_list = addr_list,
 						response_count = addr_list.Count
 					};
-					EndpointSuccessfull();
+					EndpointSuccessful();
 					return resp;
 				}
 				throw new Exception("invalid sort_by, only values 1-9 accepted");
