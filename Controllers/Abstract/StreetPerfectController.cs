@@ -45,11 +45,11 @@ namespace StreetPerfect.Controllers
 		/// <response code="200">Returns GetInfoResponse</response>
 		/// <response code="400">If invalid parameter</response>   
 		[HttpGet]
-        public ActionResult<GetInfoResponse> Get()
+        public async Task<ActionResult<GetInfoResponse>> Get()
         {
 			try
 			{
-				var ret = _Client.GetInfo();
+				var ret = await _Client.GetInfoAsync();
 				EndpointSuccessful();
 				return ret;
 			}
@@ -67,7 +67,7 @@ namespace StreetPerfect.Controllers
 		/// <returns></returns>
 		[HttpGet("test")]
 		[ApiExplorerSettings(IgnoreApi = true)]
-		public ActionResult<string> RunTest()
+		public async Task<ActionResult<string>> RunTest()
         {
 			try
 			{
@@ -76,7 +76,7 @@ namespace StreetPerfect.Controllers
 				sw.Start();
 				foreach (var pcode in CA_test_codes) {
 					req.postal_code = pcode;
-					var resp = _Client.caQuery(req);
+					var resp = await _Client.caQueryAsync(req);
 				}
 				return $"Requested {CA_test_codes.Length} addresses by postal code in {sw.ElapsedMilliseconds} msecs, {sw.ElapsedMilliseconds/ CA_test_codes.Length} msecs/request";
 			}
