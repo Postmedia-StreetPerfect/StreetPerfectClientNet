@@ -84,6 +84,11 @@ namespace StreetPerfect
 			_Debug = debug;
         }
 
+		public virtual async Task<GetInfoResponse> GetInfoAsync()
+		{
+			return await Task.Run(GetInfo);
+		}
+
 		public virtual GetInfoResponse GetInfo()
 		{
 
@@ -1076,6 +1081,65 @@ namespace StreetPerfect
 			return buf.ToString();
 		}
 
+		public Task<caQueryResponse> caQueryAsync(caQueryRequest req)
+		{
+			return Task.Run(()=>caQuery(req));
+		}
+
+		public Task<caFetchAddressResponse> caFetchAddressAsync(caFetchAddressRequest req)
+		{
+			return Task.Run(() => caFetchAddress(req));
+		}
+
+		public Task<caFormatAddressResponse> caFormatAddressAsync(caFormatAddressRequest req)
+		{
+			return Task.Run(() => caFormatAddress(req));
+		}
+
+		public Task<caValidateAddressResponse> caValidateAddressAsync(caValidateAddressRequest req)
+		{
+			return Task.Run(() => caValidateAddress(req));
+		}
+
+		public Task<caCorrectionResponse> caProcessCorrectionAsync(caAddressRequest req)
+		{
+			return Task.Run(() => caProcessCorrection(req));
+		}
+
+		public Task<caParseResponse> caProcessParseAsync(caAddressRequest req)
+		{
+			return Task.Run(() => caProcessParse(req));
+		}
+
+		public Task<caSearchResponse> caProcessSearchAsync(caAddressRequest req)
+		{
+			return Task.Run(() => caProcessSearch(req));
+		}
+
+		public Task<caParseResponse> ParseAddressAsync(string parse_op, caAddressRequest req)
+		{
+			return Task.Run(() => ParseAddress(parse_op, req));
+		}
+
+		public Task<usCorrectionResponse> usProcessCorrectionAsync(usAddressRequest req)
+		{
+			return Task.Run(() => usProcessCorrection(req));
+		}
+
+		public Task<usParseResponse> usProcessParseAsync(usAddressRequest req)
+		{
+			return Task.Run(() => usProcessParse(req));
+		}
+
+		public Task<usSearchResponse> usProcessSearchAsync(usAddressRequest req)
+		{
+			return Task.Run(() => usProcessSearch(req));
+		}
+
+		public Task<usDeliveryInformationResponse> usProcessDeliveryInfoAsync(usAddressRequest req)
+		{
+			return Task.Run(() => usProcessDeliveryInfo(req));
+		}
 	}
 
 
