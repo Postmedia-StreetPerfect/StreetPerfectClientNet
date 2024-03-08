@@ -1077,68 +1077,68 @@ namespace StreetPerfect
 		}
 
 		// wrapper async funcs 
-		public virtual async Task<GetInfoResponse> GetInfoAsync()
+		public virtual Task<GetInfoResponse> GetInfoAsync()
 		{
-			return await Task.Run(GetInfo);
+			return Task.Run(GetInfo);
 		}
-		public async Task<caQueryResponse> caQueryAsync(caQueryRequest req)
+		public Task<caQueryResponse> caQueryAsync(caQueryRequest req)
 		{
-			return await Task.Run(()=>caQuery(req));
-		}
-
-		public async Task<caFetchAddressResponse> caFetchAddressAsync(caFetchAddressRequest req)
-		{
-			return await Task.Run(() => caFetchAddress(req));
+			return Task.Run(()=>caQuery(req));
 		}
 
-		public async Task<caFormatAddressResponse> caFormatAddressAsync(caFormatAddressRequest req)
+		public Task<caFetchAddressResponse> caFetchAddressAsync(caFetchAddressRequest req)
 		{
-			return await Task.Run(() => caFormatAddress(req));
+			return Task.Run(() => caFetchAddress(req));
 		}
 
-		public async Task<caValidateAddressResponse> caValidateAddressAsync(caValidateAddressRequest req)
+		public Task<caFormatAddressResponse> caFormatAddressAsync(caFormatAddressRequest req)
 		{
-			return await Task.Run(() => caValidateAddress(req));
+			return Task.Run(() => caFormatAddress(req));
 		}
 
-		public async Task<caCorrectionResponse> caProcessCorrectionAsync(caAddressRequest req)
+		public Task<caValidateAddressResponse> caValidateAddressAsync(caValidateAddressRequest req)
 		{
-			return await Task.Run(() => caProcessCorrection(req));
+			return Task.Run(() => caValidateAddress(req));
 		}
 
-		public async Task<caParseResponse> caProcessParseAsync(caAddressRequest req)
+		public Task<caCorrectionResponse> caProcessCorrectionAsync(caAddressRequest req)
 		{
-			return await Task.Run(() => caProcessParse(req));
+			return Task.Run(() => caProcessCorrection(req));
 		}
 
-		public async Task<caSearchResponse> caProcessSearchAsync(caAddressRequest req)
+		public Task<caParseResponse> caProcessParseAsync(caAddressRequest req)
 		{
-			return await Task.Run(() => caProcessSearch(req));
+			return Task.Run(() => caProcessParse(req));
 		}
 
-		public async Task<caParseResponse> ParseAddressAsync(string parse_op, caAddressRequest req)
+		public Task<caSearchResponse> caProcessSearchAsync(caAddressRequest req)
 		{
-			return await Task.Run(() => ParseAddress(parse_op, req));
+			return Task.Run(() => caProcessSearch(req));
 		}
 
-		public async Task<usCorrectionResponse> usProcessCorrectionAsync(usAddressRequest req)
+		public Task<caParseResponse> ParseAddressAsync(string parse_op, caAddressRequest req)
 		{
-			return await Task.Run(() => usProcessCorrection(req));
+			return Task.Run(() => ParseAddress(parse_op, req));
 		}
 
-		public async Task<usParseResponse> usProcessParseAsync(usAddressRequest req)
+		public Task<usCorrectionResponse> usProcessCorrectionAsync(usAddressRequest req)
 		{
-			return await Task.Run(() => usProcessParse(req));
+			return Task.Run(() => usProcessCorrection(req));
 		}
 
-		public async Task<usSearchResponse> usProcessSearchAsync(usAddressRequest req)
+		public Task<usParseResponse> usProcessParseAsync(usAddressRequest req)
 		{
-			return await Task.Run(() => usProcessSearch(req));
+			return Task.Run(() => usProcessParse(req));
 		}
 
-		public async Task<usDeliveryInformationResponse> usProcessDeliveryInfoAsync(usAddressRequest req)
+		public Task<usSearchResponse> usProcessSearchAsync(usAddressRequest req)
 		{
-			return await Task.Run(() => usProcessDeliveryInfo(req));
+			return Task.Run(() => usProcessSearch(req));
+		}
+
+		public Task<usDeliveryInformationResponse> usProcessDeliveryInfoAsync(usAddressRequest req)
+		{
+			return Task.Run(() => usProcessDeliveryInfo(req));
 		}
 	}
 
