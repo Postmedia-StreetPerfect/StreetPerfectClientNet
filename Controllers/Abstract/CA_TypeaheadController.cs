@@ -5,6 +5,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using StreetPerfect.Classes;
 using StreetPerfect.Models;
+using StreetPerfect.Native;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

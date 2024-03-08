@@ -7,8 +7,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using StreetPerfect.Helpers;
+using StreetPerfect.Native.Helpers;
 using StreetPerfect.Models;
+using StreetPerfect.Native;
 
 #pragma warning disable 1591
 
