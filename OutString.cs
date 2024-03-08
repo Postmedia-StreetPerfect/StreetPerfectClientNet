@@ -1,10 +1,9 @@
-﻿using StreetPerfect.Helpers;
-using StreetPerfect.Models;
+﻿using StreetPerfect.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace StreetPerfect.Helpers
+namespace StreetPerfect.Native.Helpers
 {
 	/// <summary>
 	/// output parameter helper class for calling low level spaa calls

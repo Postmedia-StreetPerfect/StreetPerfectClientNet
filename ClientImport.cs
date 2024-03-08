@@ -4,7 +4,7 @@ using System.Text;
 
 #pragma warning disable 1591
 
-namespace StreetPerfect
+namespace StreetPerfect.Native
 {
     /// <summary>
     /// the actual spaa dll import class

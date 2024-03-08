@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace StreetPerfectClient
+namespace StreetPerfect.Native
 {
 	internal static class AccentNormalizer
 	{

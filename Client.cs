@@ -5,16 +5,15 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using StreetPerfect.Helpers;
+using StreetPerfect.Native.Helpers;
 using StreetPerfect.Models;
 using StreetPerfect;
-using StreetPerfectClient;
 
 #pragma warning disable 1591
 
 // the street perfect client wrapper for .Net (5+) (actually runs under .Net 4 as well)
 // all parameters have been rolled into simple request and response objects
-namespace StreetPerfect
+namespace StreetPerfect.Native
 {
 
 	/// <summary>
@@ -32,7 +31,7 @@ namespace StreetPerfect
 	/// XPC = (default) Multi threaded Client connects to a running StreetPerfect service instance
 	/// 
 	/// </summary>
-	public class StreetPerfectClient : IStreetPerfectClient
+	public class Client : IStreetPerfectClient
 	{
 		public const string defaultConnectionString = "ServiceAddress=127.0.0.1;ServicePort=1330;";
 
@@ -78,7 +77,7 @@ namespace StreetPerfect
 
 		public string ExtraRequestArgs { get; set; }
 
-        public StreetPerfectClient(string connectionString, bool debug = false)
+        public Client(string connectionString, bool debug = false)
 		{
 			_connection_string = connectionString.Trim();
 			_Debug = debug;
