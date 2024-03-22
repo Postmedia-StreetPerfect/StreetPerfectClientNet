@@ -367,7 +367,7 @@ namespace StreetPerfect.Native
 			if (max_returned <= 0 || max_returned > 2000)
 				max_returned = 1;
 
-			int buf_size = 1000000;
+			int buf_size = 400000;
 			if (req.query_option >= 70)
 				buf_size = 480 * (max_returned + 1);
 			else if (req.query_option >= 60)
@@ -423,10 +423,11 @@ namespace StreetPerfect.Native
 				case 79:
 					resp.address_list = caDualRecordResponseHelper.MakeAddressList(resp.function_messages, max_returned, _Debug);
 					resp.function_messages = null;
-					break;
+                    resp.status_messages = resp.address_list.Count.ToString();
+                    break;
 			}
 
-			return resp;
+            return resp;
 		}
 
 		public virtual caFetchAddressResponse caFetchAddress(caFetchAddressRequest req)
