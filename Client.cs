@@ -367,7 +367,7 @@ namespace StreetPerfect.Native
 			if (max_returned <= 0 || max_returned > 2000)
 				max_returned = 1;
 
-			int buf_size = 400000;
+			int buf_size = 1024000;
 			if (req.query_option >= 70)
 				buf_size = 480 * (max_returned + 1);
 			else if (req.query_option >= 60)
