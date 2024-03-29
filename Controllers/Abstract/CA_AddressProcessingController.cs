@@ -48,11 +48,11 @@ namespace StreetPerfect.Controllers
 		/// <response code="400">If invalid parameter</response>   
 		/// <response code="502">StreetPerfect API error</response>   
 		[HttpPost("correction")]
-		public ActionResult<caCorrectionResponse> ca_correct([FromBody] caAddressRequest req)
+		public async Task<ActionResult<caCorrectionResponse>> ca_correct([FromBody] caAddressRequest req)
 		{
 			try
 			{
-				var ret = _Client.caProcessCorrection(req);
+				var ret = await _Client.caProcessCorrectionAsync(req);
 				EndpointSuccessful();
 				return ret;
 			}
@@ -92,13 +92,13 @@ namespace StreetPerfect.Controllers
 		/// <response code="400">If invalid parameter</response>   
 		/// <response code="502">StreetPerfect API error</response>   
 		[HttpPost("parse/{parse_op?}")]
-		public ActionResult<caParseResponse> ca_parse([FromBody] caAddressRequest req, string parse_op = null)
+		public async Task<ActionResult<caParseResponse>> ca_parse([FromBody] caAddressRequest req, string parse_op = null)
 		{
 			try
 			{
 				if (req != null)
 				{
-					var ret = _Client.ParseAddress(parse_op, req);
+					var ret = await _Client.ParseAddressAsync(parse_op, req);
 					EndpointSuccessful("/parse");
 					return ret;
 				}
@@ -135,11 +135,11 @@ namespace StreetPerfect.Controllers
 		/// <response code="400">If invalid parameter</response>   
 		/// <response code="502">StreetPerfect API error</response>   
 		[HttpPost("search")]
-		public ActionResult<caSearchResponse> ca_search([FromBody] caAddressRequest req)
+		public async Task<ActionResult<caSearchResponse>> ca_search([FromBody] caAddressRequest req)
 		{
 			try
 			{
-				var ret = _Client.caProcessSearch(req);
+				var ret = await _Client.caProcessSearchAsync(req);
 				EndpointSuccessful();
 				return ret;
 			}
@@ -168,11 +168,11 @@ namespace StreetPerfect.Controllers
 		/// <response code="400">If invalid parameter</response>   
 		/// <response code="502">StreetPerfect API error</response>   
 		[HttpPost("fetch")]
-		public ActionResult<caFetchAddressResponse> ca_fetch([FromBody] caFetchAddressRequest req)
+		public async Task<ActionResult<caFetchAddressResponse>> ca_fetch([FromBody] caFetchAddressRequest req)
 		{
 			try
 			{
-				var ret = _Client.caFetchAddress(req);
+				var ret = await _Client.caFetchAddressAsync(req);
 				EndpointSuccessful();
 				return ret;
 			}
@@ -201,11 +201,11 @@ namespace StreetPerfect.Controllers
 		/// <response code="400">If invalid parameter</response>   
 		/// <response code="502">StreetPerfect API error</response>   
 		[HttpPost("format")]
-		public ActionResult<caFormatAddressResponse> ca_format([FromBody] caFormatAddressRequest req)
+		public async Task<ActionResult<caFormatAddressResponse>> ca_format([FromBody] caFormatAddressRequest req)
 		{
 			try
 			{
-				var ret = _Client.caFormatAddress(req);
+				var ret = await _Client.caFormatAddressAsync(req);
 				EndpointSuccessful();
 				return ret;
 			}
@@ -234,11 +234,11 @@ namespace StreetPerfect.Controllers
 		/// <response code="400">If invalid parameter</response>   
 		/// <response code="502">StreetPerfect API error</response>   
 		[HttpPost("validate")]
-		public ActionResult<caValidateAddressResponse> ca_validate([FromBody] caValidateAddressRequest req)
+		public async Task<ActionResult<caValidateAddressResponse>> ca_validate([FromBody] caValidateAddressRequest req)
 		{
 			try
 			{
-				var ret = _Client.caValidateAddress(req);
+				var ret = await _Client.caValidateAddressAsync(req);
 				EndpointSuccessful();
 				return ret;
 			}

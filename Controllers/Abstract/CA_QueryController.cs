@@ -46,11 +46,11 @@ namespace StreetPerfect.Controllers
 		/// <response code="400">If invalid parameter</response>   
 		/// <response code="502">StreetPerfect API error</response>   
 		[HttpPost]
-		public virtual ActionResult<caQueryResponse> ca_query([FromBody] caQueryRequest req)
+		public virtual async Task<ActionResult<caQueryResponse>> ca_query([FromBody] caQueryRequest req)
 		{
 			try
 			{
-				var ret = _Client.caQuery(req);
+				var ret = await _Client.caQueryAsync(req);
 				EndpointSuccessful();
 				return ret;
 			}

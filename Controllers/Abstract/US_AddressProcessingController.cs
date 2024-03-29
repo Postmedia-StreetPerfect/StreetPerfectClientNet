@@ -42,11 +42,11 @@ namespace StreetPerfect.Controllers
 		/// <response code="400">If invalid parameter</response>   
 		/// <response code="502">StreetPerfect API error</response>   
 		[HttpPost("correction")]
-		public ActionResult<usCorrectionResponse> us_correct([FromBody] usAddressRequest req)
+		public async Task<ActionResult<usCorrectionResponse>> us_correct([FromBody] usAddressRequest req)
 		{
 			try
 			{
-				var ret = _Client.usProcessCorrection(req);
+				var ret = await _Client.usProcessCorrectionAsync(req);
 				EndpointSuccessful();
 				return ret;
 			}
@@ -75,11 +75,11 @@ namespace StreetPerfect.Controllers
 		/// <response code="400">If invalid parameter</response>   
 		/// <response code="502">StreetPerfect API error</response>   
 		[HttpPost("parse")]
-		public ActionResult<usParseResponse> us_parse([FromBody] usAddressRequest req)
+		public async Task<ActionResult<usParseResponse>> us_parse([FromBody] usAddressRequest req)
 		{
 			try
 			{
-				var ret = _Client.usProcessParse(req);
+				var ret = await _Client.usProcessParseAsync(req);
 				EndpointSuccessful();
 				return ret;
 			}
@@ -115,11 +115,11 @@ namespace StreetPerfect.Controllers
 		/// <response code="400">If invalid parameter</response>   
 		/// <response code="502">StreetPerfect API error</response>   
 		[HttpPost("search")]
-		public ActionResult<usSearchResponse> us_search([FromBody] usAddressRequest req)
+		public async Task<ActionResult<usSearchResponse>> us_search([FromBody] usAddressRequest req)
 		{
 			try
 			{
-				var ret = _Client.usProcessSearch(req);
+				var ret = await _Client.usProcessSearchAsync(req);
 				EndpointSuccessful();
 				return ret;
 			}
