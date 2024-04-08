@@ -1,7 +1,10 @@
 # StreetPerfectClient for .Net
-C# XPC Client for StreetPerfect native AND HTTP access
+C# XPC Client for StreetPerfect
 
-The easiest way to use the C# client is to add it as a singleton service in your ConfigureServices() aspnet function.
+Note that this client access does not support authentication or encryption and does not support the Typeahead API.
+However, there is an [HTTP client](https://github.com/Postmedia-StreetPerfect/StreetPerfectHttpClientNet) available that uses the new HTTP frontend and supports the typeahead API. Both clients use the same interface and models.
+
+The easiest way to use the C# XPC client is to add it as a singleton service in your ConfigureServices() aspnet function.
 
 ```C#
 var sp_connectionString = Configuration.GetConnectionString("StreetPerfectServer");
