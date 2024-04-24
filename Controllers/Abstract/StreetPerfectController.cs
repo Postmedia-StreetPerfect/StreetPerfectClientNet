@@ -40,12 +40,12 @@ namespace StreetPerfect.Controllers
 		/// <remarks>
 		/// Sample request:
 		///
-		///     GET /api
+		///     GET /api/1
 		///
 		/// </remarks>
 		/// <response code="200">Returns GetInfoResponse</response>
 		/// <response code="400">If invalid parameter</response>   
-		[HttpGet("1")]
+		[HttpGet]
         public async Task<ActionResult<GetInfoResponse>> Get()
         {
 			try
