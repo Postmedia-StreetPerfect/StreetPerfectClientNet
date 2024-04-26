@@ -35,7 +35,7 @@ namespace StreetPerfect.Native
 	{
 		public const string defaultConnectionString = "ServiceAddress=127.0.0.1;ServicePort=1330;";
 
-		public const string Version = "12.1.0";
+		public const string Version = "12.1.1";
 		public const string License = "Copyright © 1993-2024, Postmedia Network Inc";
 
 		protected string _connection_string;
