@@ -84,41 +84,14 @@ namespace StreetPerfect.Native
 			_Debug = debug;
 		}
 
-
-		// this doesn't work for linux, will need to load all functions separately like pythonnet does now
-		protected static IntPtr LoadLib()
-		{
-			var startupPath = Directory.GetCurrentDirectory();
-			//var startupPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName);
-
-			var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
-
-			var myLibraryFullPath = RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
-				? Path.Combine(startupPath, "spaa", "linux", "SpaaSqaXpcClientNim64.dll")
-				: Path.Combine(startupPath, "spaa","windows","SpaaSqaXpcClientNim64.dll");
-
-            // Load the appropriate DLL into the current process
-            if (!NativeLibrary.TryLoad(myLibraryFullPath, out IntPtr handle))
-            {
-                Console.WriteLine($"unable to load sp client dll: {myLibraryFullPath}");
-                return IntPtr.Zero;
-            }
-            else
-            {
-                Console.WriteLine($"loaded sp client dll: {myLibraryFullPath}");
-            }
-            return handle;
-		}
-
-
 		public virtual GetInfoResponse GetInfo()
 		{
 
 			OutString PS_CAN_out_response_address_list = new OutString();
 			OutString PS_ARG_out_status_flag = new OutString(10);
 			OutString PS_ARG_out_status_messages = new OutString(200);
-
-			ClientImport.QueryAddress(ConnectionString,
+            ClientImport.QueryAddress
+            (ConnectionString,
 					"99",
 					"",
 					"",
@@ -222,7 +195,7 @@ namespace StreetPerfect.Native
 			};
 		}
 
-            public caCorrectionResponse CorrectAddress(caAddressRequest req)
+        public caCorrectionResponse CorrectAddress(caAddressRequest req)
 		{
 			// to reduce the mem footprint (a little) you can set the string initial capacity
 			// in the OutString ctor - I just haven't actually done that yet (def size is 4k)
@@ -237,7 +210,8 @@ namespace StreetPerfect.Native
 			OutString PS_ARG_out_status_flag = new OutString(10);
 			OutString PS_ARG_out_status_messages = new OutString(200);
 
-			ClientImport.CorrectAddress(GetConnectionString(req.options), req.address_line ?? "", req.city ?? ""
+            ClientImport.CorrectAddress
+                (GetConnectionString(req.options), req.address_line ?? "", req.city ?? ""
 				, req.province ?? "", req.postal_code ?? "", req.country ?? ""
 				, PS_CAN_out_address_line.s, PS_CAN_out_city.s, PS_CAN_out_province.s
 				, PS_CAN_out_postal_code.s, PS_CAN_out_country.s, PS_CAN_out_extra_information.s
@@ -333,7 +307,8 @@ namespace StreetPerfect.Native
 			OutString PS_ARG_out_status_flag = new OutString();
 			OutString PS_ARG_out_status_messages = new OutString();
 
-			ClientImport.ParseAddress(GetConnectionString(req.options)
+            ClientImport.ParseAddress
+                (GetConnectionString(req.options)
 				, req.address_line ?? "", req.city ?? "", req.province ?? ""
 				, req.postal_code ?? "", req.country ?? ""
 				, PS_CAN_xxx_address_type.s
@@ -411,11 +386,13 @@ namespace StreetPerfect.Native
 			OutString PS_ARG_out_status_messages = new OutString();
 			string _in_not_used = "";
 
-			// looks like even if there ISN'T enough room to fill with results
-			// this function still returns 0 -- unless I'm not getting the return val correctly
-			// so a megabyte buffer it is!
-			IntPtr ret = ClientImport.QueryAddress(GetConnectionString(req.options),
-					req.query_option.ToString(),
+            // looks like even if there ISN'T enough room to fill with results
+            // this function still returns 0 -- unless I'm not getting the return val correctly
+            // so a megabyte buffer it is!
+            IntPtr ret =
+            ClientImport.QueryAddress
+            (GetConnectionString(req.options),
+                    req.query_option.ToString(),
 					req.address_line ?? "",
 					req.city ?? "",
 					req.province ?? "",
@@ -468,7 +445,8 @@ namespace StreetPerfect.Native
 			OutString PS_ARG_out_status_flag = new OutString();
 			OutString PS_ARG_out_status_messages = new OutString();
 
-			ClientImport.FetchAddress(GetConnectionString(req.options), req.street_number?.ToString() ?? "", req.unit_number ?? ""
+            ClientImport.FetchAddress
+                (GetConnectionString(req.options), req.street_number?.ToString() ?? "", req.unit_number ?? ""
 				, req.postal_code ?? ""
 				, PS_CAN_out_address_line.s, PS_CAN_out_city.s, PS_CAN_out_province.s
 				, PS_CAN_out_postal_code.s, PS_CAN_out_country.s, PS_ARG_out_status_flag.s
@@ -504,7 +482,8 @@ namespace StreetPerfect.Native
 			InString _in_not_used = new InString();
 			OutString _out_not_used = new OutString(10);
 
-			ClientImport.FormatAddress(GetConnectionString(req.options)
+            ClientImport.FormatAddress
+            (GetConnectionString(req.options)
 				, PS_address_line.s, PS_city.s, PS_province.s, PS_postal_code.s, _in_not_used.s
 
 				, PS_CAN_out_format_line_one.s, PS_CAN_out_format_line_two.s
@@ -538,7 +517,8 @@ namespace StreetPerfect.Native
 			InString _in_not_used = new InString();
 			OutString _out_not_used = new OutString(10);
 
-			ClientImport.ValidateAddress(GetConnectionString(req.options)
+            ClientImport.ValidateAddress
+             (GetConnectionString(req.options)
 				, PS_address_line.s, PS_city.s, PS_province.s, PS_postal_code.s, _in_not_used.s
 				, PS_ARG_out_function_messages.s, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s);
 
@@ -580,7 +560,8 @@ namespace StreetPerfect.Native
 			InString _in_not_used = new InString();
 			OutString _out_not_used = new OutString(10);
 
-			ClientImport.ProcessAddress(GetConnectionString(req.options), "CAN_AddressCorrection"
+            ClientImport.ProcessAddress
+                (GetConnectionString(req.options), "CAN_AddressCorrection"
 				, PS_recipient.s, _in_not_used.s, PS_address_line.s, PS_city.s, PS_province.s, PS_postal_code.s
 
 				, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
@@ -639,7 +620,8 @@ namespace StreetPerfect.Native
 			OutString _out_not_used = new OutString(10);
 
 
-			ClientImport.ProcessAddress(GetConnectionString(req.options), "CAN_AddressParse"
+            ClientImport.ProcessAddress
+             (GetConnectionString(req.options), "CAN_AddressParse"
 				, PS_recipient.s, _in_not_used.s, PS_address_line.s, PS_city.s
 				, PS_province.s, PS_postal_code.s
 
@@ -721,7 +703,8 @@ namespace StreetPerfect.Native
 				InString _in_not_used = new InString();
 				OutString _out_not_used = new OutString(10);
 
-				ClientImport.ProcessAddress(GetConnectionString(req.options), "CAN_AddressSearch"
+                ClientImport.ProcessAddress
+                    (GetConnectionString(req.options), "CAN_AddressSearch"
 					, PS_recipient.s, _in_not_used.s, PS_address_line.s, PS_city.s
 					, PS_province.s, PS_postal_code.s
 
@@ -791,7 +774,8 @@ namespace StreetPerfect.Native
 
 			OutString _out_not_used = new OutString(10);
 
-			ClientImport.ProcessAddress(GetConnectionString(req.options), "USA_AddressCorrection"
+            ClientImport.ProcessAddress
+                (GetConnectionString(req.options), "USA_AddressCorrection"
 				, PS_firm_name.s, PS_urbanization_name.s, PS_address_line.s, PS_city.s, PS_state.s, PS_zip_code.s
 				, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 				, PS_USA_out_firm_name.s
@@ -849,7 +833,8 @@ namespace StreetPerfect.Native
 
 			OutString _out_not_used = new OutString(10);
 
-			ClientImport.ProcessAddress(GetConnectionString(req.options), "USA_AddressParse"
+            ClientImport.ProcessAddress
+                (GetConnectionString(req.options), "USA_AddressParse"
 				, PS_firm_name.s, PS_urbanization_name.s, PS_address_line.s, PS_city.s, PS_state.s, PS_zip_code.s
 				, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 				, PS_USA_out_address_type.s
@@ -915,7 +900,8 @@ namespace StreetPerfect.Native
 
 				OutString _out_not_used = new OutString(10);
 
-				ClientImport.ProcessAddress(GetConnectionString(req.options), "USA_AddressSearch"
+                ClientImport.ProcessAddress
+                 (GetConnectionString(req.options), "USA_AddressSearch"
 					, PS_firm_name.s, PS_urbanization_name.s, PS_address_line.s, PS_city.s, PS_state.s, PS_zip_code.s
 					, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 					, PS_USA_out_response_count.s
@@ -989,7 +975,8 @@ namespace StreetPerfect.Native
 
 			OutString _out_not_used = new OutString(10);
 
-			ClientImport.ProcessAddress(GetConnectionString(req.options), "USA_DeliveryInformation"
+            ClientImport.ProcessAddress
+                (GetConnectionString(req.options), "USA_DeliveryInformation"
 				, PS_firm_name.s, PS_urbanization_name.s, PS_address_line.s, PS_city.s, PS_state.s, PS_zip_code.s
 				, PS_ARG_out_status_flag.s, PS_ARG_out_status_messages.s, PS_ARG_out_function_messages.s
 				, PS_USA_out_city_abbreviation.s
