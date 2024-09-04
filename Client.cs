@@ -84,6 +84,8 @@ namespace StreetPerfect.Native
 			_Debug = debug;
 		}
 
+
+		// this doesn't work for linux, will need to load all functions separately
 		protected static IntPtr LoadLib()
 		{
 			var startupPath = Directory.GetCurrentDirectory();
