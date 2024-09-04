@@ -59,8 +59,8 @@ namespace StreetPerfect.Native
 #elif SPAA_SPC
 			public const string _dll = "libSpaaSqaSpcClientNim64.so";
 #else
-			//public const string _dll = "libSpaaSqaXpcClientNim64.so";
-            public const string _dll = "SpaaSqaXpcClientNim64.dll";
+			public const string _dll = "libSpaaSqaXpcClientNim64.so";
+            //public const string _dll = "SpaaSqaXpcClientNim64.dll";
 #endif
 
 #endif
