@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using StreetPerfect.Native.Helpers;
 using StreetPerfect.Models;
 using StreetPerfect;
+using System.IO;
 
 #pragma warning disable 1591
 
@@ -81,7 +82,28 @@ namespace StreetPerfect.Native
 		{
 			_connection_string = connectionString.Trim();
 			_Debug = debug;
-        }
+
+			LoadLib();
+
+		}
+
+		protected static IntPtr LoadLib()
+		{
+			//var startupPath = Directory.GetCurrentDirectory();
+			var startupPath = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule?.FileName);
+
+			var isLinux = RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
+
+			var myLibraryFullPath = RuntimeInformation.IsOSPlatform(OSPlatform.Linux)
+				? Path.Combine(startupPath, @"spaa\linux\SpaaSqaXpcClientNim64.dll")
+				: Path.Combine(startupPath, @"spaa\windows\SpaaSqaXpcClientNim64.dll");
+
+			// Load the appropriate DLL into the current process
+			if (!NativeLibrary.TryLoad(myLibraryFullPath, out IntPtr handle))
+				return IntPtr.Zero;
+			return handle;
+		}
+
 
 		public virtual GetInfoResponse GetInfo()
 		{

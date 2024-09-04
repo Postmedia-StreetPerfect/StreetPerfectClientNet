@@ -10,6 +10,12 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.md" />
+    <None Include="$(MSBuildThisFileDirectory)spaa\linux\SpaaSqaXpcClientNim64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="$(MSBuildThisFileDirectory)spaa\windows\SpaaSqaXpcClientNim64.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Client.cs" />
@@ -19,5 +25,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)IStreetPerfectClient.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)OutString.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SpIni.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)spaa\" />
   </ItemGroup>
 </Project>

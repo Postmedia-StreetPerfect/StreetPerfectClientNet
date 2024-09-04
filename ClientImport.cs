@@ -23,19 +23,19 @@ namespace StreetPerfect.Native
 
 #if SPAA_DEBUG
 #if SPAA_LPC
-			public const string _dll = "SpaaSqaLpcClientNim64_d.Dll";
+			public const string _dll = "SpaaSqaLpcClientNim64_d.dll";
 #elif SPAA_SPC
-			public const string _dll = "SpaaSqaSpcClientNim64_d.Dll";
+			public const string _dll = "SpaaSqaSpcClientNim64_d.dll";
 #else
-            public const string _dll = "SpaaSqaXpcClientNim64_d.Dll";
+            public const string _dll = "SpaaSqaXpcClientNim64_d.dll";
 #endif
 #else
 #if SPAA_LPC
-			public const string _dll = "SpaaSqaLpcClientNim64.Dll";
+			public const string _dll = "SpaaSqaLpcClientNim64.dll";
 #elif SPAA_SPC
-			public const string _dll = "SpaaSqaSpcClientNim64.Dll";
+			public const string _dll = "SpaaSqaSpcClientNim64.dll";
 #else
-            public const string _dll = "SpaaSqaXpcClientNim64.Dll";
+            public const string _dll = "SpaaSqaXpcClientNim64.dll";
 #endif
 
 #endif
@@ -59,22 +59,23 @@ namespace StreetPerfect.Native
 #elif SPAA_SPC
 			public const string _dll = "libSpaaSqaSpcClientNim64.so";
 #else
-			public const string _dll = "libSpaaSqaXpcClientNim64.so";
+			//public const string _dll = "libSpaaSqaXpcClientNim64.so";
+            public const string _dll = "SpaaSqaXpcClientNim64.dll";
 #endif
 
 #endif
 
 #else
 #error You must define WINDOWS or LINUX in your compiler symbols
-	public const string _dll = "SpaaSqaXpcClientNim64.Dll";
+	public const string _dll = "SpaaSqaXpcClientNim64.dll";
 
 #endif
-        //this is the single threaded client which requires connect/disconnect
-        //public const string _dll = @"C:\StreetPerfectX36\AddressAccuracy\SharedFiles\SpaaSqaSpcClientNim.Dll";
+		//this is the single threaded client which requires connect/disconnect
+		//public const string _dll = @"C:\StreetPerfectX36\AddressAccuracy\SharedFiles\SpaaSqaSpcClientNim.dll";
 
 
-        //not used if using XPC client
-        [DllImport(_dll, EntryPoint = "StreetPerfectConnect",
+		//not used if using XPC client
+		[DllImport(_dll, EntryPoint = "StreetPerfectConnect",
             CharSet = CharSet.Ansi, ExactSpelling = true,
             CallingConvention = CallingConvention.Cdecl)]
         public static extern System.IntPtr Connect(string PS_ARG_in_parameter_file,
