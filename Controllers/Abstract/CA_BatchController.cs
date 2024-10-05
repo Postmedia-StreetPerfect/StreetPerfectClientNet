@@ -187,6 +187,7 @@ namespace StreetPerfect.Controllers
 			}
 		}
 
+
 		/// <summary>
 		/// Upload batch data (non-form encoded)
 		/// </summary>
@@ -378,67 +379,6 @@ namespace StreetPerfect.Controllers
 			return buf;
 		}
 
-		/// <summary>
-		/// Validates any Batch Report File.
-		/// </summary>
-		/// <param name="reportText">The full body text of the StreetPerfectBatchReport.txt</param>
-		/// <returns></returns>
-
-		[HttpPost("validate")]
-		public caBatchValidateResponse ValidateBatchReport([FromForm] string reportText)
-		{
-			var user_id = GetUserId();
-			var ret = new caBatchValidateResponse();
-			try
-			{
-				if (String.IsNullOrWhiteSpace(reportText))
-					throw new Exception("passed text is null or empty");
-				if (reportText.Length < 1200 || reportText.Length > 2500)
-					throw new Exception($"passed text is too short or long (1200-2500 bytes range), {reportText.Length} bytes");
-
-				//var buf = System.IO.File.ReadAllText(@"C:\Projects\StreetPerfect\StreetPerfect\StreetPerfectDebug\AddressAccuracy\BatchDriverFiles\StreetPerfectBatchReport.txt", Encoding.GetEncoding("iso-8859-1"));
-
-				int ind = reportText.LastIndexOf("eSignature:");
-				if (ind == -1)
-					throw new Exception("eSignature: NOT found");
-
-				var _searchWhitespace = new Regex("[\r\n\t ]+", RegexOptions.Compiled);
-
-				// the next two lines contain the hash val
-				var esig = reportText.Substring(ind + 11).Trim();
-				esig = _searchWhitespace.Replace(esig, "");
-
-				if (esig.Length != 128)
-					throw new Exception("embedded signature is NOT 128 bytes long");
-
-				var buf = _searchWhitespace.Replace(reportText.Substring(0, ind), "");
-				string hex_hash;
-
-				using (var Hasher = SHA512.Create())
-				{
-					byte[] data = Hasher.ComputeHash(Encoding.GetEncoding("iso-8859-1").GetBytes(buf + "{BD56C86A-85AB-4A77-B342-C8D858C03641}"));
-					hex_hash = Convert.ToHexString(data);
-					_logger.LogInformation("hex hash = {x}", hex_hash);
-				}
-				if (esig.Equals(hex_hash, StringComparison.OrdinalIgnoreCase))
-				{
-					_logger.LogInformation("account: {user_id}, batch report hashes match", user_id);
-					ret.Msg = "Report passed validation";
-					ret.Passed = true;
-					return ret;
-				}
-				else
-					_logger.LogInformation("account: {user_id}, batch report hashes don't match", user_id);
-			}
-			catch (Exception e)
-			{
-				_logger.LogError("account: {user_id}, Exception validating batch report text, {m}", user_id, e.Message);
-			}
-			ret.Msg = "Report failed validation, please check that you've sent the full unmodified report text.";
-			ret.Passed = false;
-			return ret;
-		}
-		
 
 	}
 }
