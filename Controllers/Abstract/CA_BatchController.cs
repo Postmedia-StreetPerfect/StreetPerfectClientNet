@@ -26,7 +26,12 @@ namespace StreetPerfect.Controllers
 		public BatchException(string msg, string status = "Error") : base(msg) { }
 	}
 
-    public abstract class _CA_BatchController : StreetPerfectBaseController
+
+	[Route("api/1/ca/batch")]
+	[ApiExplorerSettings(GroupName = "StreetPerfectV1")]
+	[ApiController]
+	[Authorize(Policy = "ApiPolicy")]
+	public abstract class _CA_BatchController : StreetPerfectBaseController
 	{
 		protected bool _Debug;
         protected readonly IBatchDriver _batchDriver;
@@ -38,7 +43,7 @@ namespace StreetPerfect.Controllers
 			_batchDriver = batchDriver;
 		}
 
-		protected void CheckBatchConfig()
+		protected virtual void CheckBatchConfig()
 		{
 			if (!User.IsInRole("batch"))
 			{
