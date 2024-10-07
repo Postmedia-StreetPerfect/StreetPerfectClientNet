@@ -152,6 +152,7 @@ namespace StreetPerfect.Controllers
 			}
 		}
 
+		/* this is stupid
 		/// <summary>
 		/// Upload batch input data.
 		/// </summary>
@@ -191,22 +192,23 @@ namespace StreetPerfect.Controllers
 				return StatusCode(502, new { err = ex.Message });
 			}
 		}
-
+		*/
 
 		/// <summary>
 		/// Upload batch data (non-form encoded)
 		/// </summary>
 		/// <remarks>
-		/// Simply upload the CSV file directly in the POST body - with Content-Type set to 'text/csv'.
+		/// Simply upload your CSV (or fixed column width) data directly in the POST body - with Content-Type set to 'text/csv' or 'text/plain' (both work for either data type).
 		/// 
 		/// You can upload a zipped CSV file as well by setting the Content-Type to 'application/zip'
 		/// 
-		/// You can pass along the CSV text file encoding in the query string as ?encoding=[encoding].
+		/// You can pass along the text file encoding in the query string as ?encoding=[encoding].
 		/// The default encoding is assumed as UTF-8 if not included.
 		/// 
+		/// See /api/1/ca/batch/encodings for a list of supported encodings.
 		/// </remarks>
 		/// <returns></returns>
-		[HttpPost("upload/csv")]
+		[HttpPost("upload")]
 		[RequestSizeLimit(1024 * 1024 * 100)] //100 meg max ?
 		public async Task<IActionResult> UploadDirect([FromQuery] string encoding)
 		{
@@ -217,7 +219,7 @@ namespace StreetPerfect.Controllers
 				user_id = GetUserId().ToString();
 
 				var content_type = Request.ContentType?.ToLower()?.Trim();
-				if (content_type != "text/csv" && content_type != "application/zip")
+				if (content_type != "text/csv" && content_type != "text/plain" && content_type != "application/zip")
 				{
 					throw new Exception("Content-Type header must be text/csv or application/zip - if cvs file is zipped");
 				}
