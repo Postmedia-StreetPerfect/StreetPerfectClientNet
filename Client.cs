@@ -428,7 +428,8 @@ namespace StreetPerfect.Native
 				case 79:
 					resp.address_list = caDualRecordResponseHelper.MakeAddressList(resp.function_messages, max_returned, _Debug);
 					resp.function_messages = null;
-                    resp.status_messages = resp.address_list.Count.ToString();
+                    if (resp.status_flag != "X")
+                        resp.status_messages = resp.address_list.Count.ToString();
                     break;
 			}
 
