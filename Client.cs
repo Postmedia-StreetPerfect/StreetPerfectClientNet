@@ -370,7 +370,7 @@ namespace StreetPerfect.Native
 			if (max_returned <= 0 || max_returned > 2000)
 				max_returned = 1;
 
-			int buf_size = 1024000;
+			int buf_size = 30000; // 1024000;
 			if (req.query_option >= 70)
 				buf_size = 480 * (max_returned + 1);
 			else if (req.query_option >= 60)
@@ -378,7 +378,7 @@ namespace StreetPerfect.Native
 			else if (req.query_option > 30)
 				buf_size = 30000;
 			else if (req.query_option == 16)
-				buf_size = 300000;
+				buf_size = 30000;
 
 
 			OutString PS_ARG_out_function_messages = new OutString(buf_size);
