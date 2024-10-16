@@ -138,7 +138,7 @@ namespace StreetPerfect.Controllers
 
 				var len = await _batchDriver.HandleUpload(user_id, form.file.OpenReadStream(), form.encoding, form.is_zipped);
 				EndpointSuccessful();
-				return Ok(new { msg = $"{len} bytes recieved" });
+				return Ok(new { msg = $"{len.Size} bytes recieved, {len.Lines} lines." });
 			}
 			catch (UserException ex)
 			{
@@ -240,7 +240,7 @@ namespace StreetPerfect.Controllers
 				var len = await _batchDriver.HandleUpload(user_id, strm, encoding, content_type == "application/zip");
 
 				EndpointSuccessful();
-				return Ok(new { msg = $"{len} bytes recieved" });
+				return Ok(new { msg = $"{len.Size} bytes recieved, {len.Lines} lines." });
 			}
 			catch (Exception ex)
 			{
