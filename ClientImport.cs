@@ -71,7 +71,7 @@ namespace StreetPerfect.Native
         }
 
         // by doing it this way I don't seem to require the unsafe keyword anywhere
-        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate System.IntPtr delegate_QueryAddress(
                         string PS_ARG_in_parameter_file,
                         string PS_CAN_in_query_option,
@@ -86,23 +86,23 @@ namespace StreetPerfect.Native
 
 
         //not used if using XPC client
-        //[DllImport(_dll, EntryPoint = "StreetPerfectConnect",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.StdCall)]
-        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        //[DllImport(_dll, EntryPoint = "StreetPerfectConnect",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate System.IntPtr delegate_Connect(string PS_ARG_in_parameter_file,
                        Byte[] PS_ARG_out_status_flag,
                        Byte[] PS_ARG_out_status_messages);
 
 
         //not used if using XPC client
-        //[DllImport(_dll, EntryPoint = "StreetPerfectDisconnect",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.StdCall)]
-        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        //[DllImport(_dll, EntryPoint = "StreetPerfectDisconnect",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate System.IntPtr delegate_Disconnect(string PS_ARG_in_parameter_file,
                           Byte[] PS_ARG_out_status_flag,
                           Byte[] PS_ARG_out_status_messages);
 
 
-        //[DllImport(_dll, EntryPoint = "StreetPerfectCorrectAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.StdCall)]
-        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        //[DllImport(_dll, EntryPoint = "StreetPerfectCorrectAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate System.IntPtr delegate_CorrectAddress(string PS_ARG_in_parameter_file,
                         string PS_CAN_in_address_line,
                         string PS_CAN_in_city,
@@ -121,8 +121,8 @@ namespace StreetPerfect.Native
                         Byte[] PS_ARG_out_status_messages);
 
 
-        //[DllImport(_dll, EntryPoint = "StreetPerfectCaptureAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.StdCall)]
-        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        //[DllImport(_dll, EntryPoint = "StreetPerfectCaptureAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate System.IntPtr delegate_CaptureAddress(string PS_ARG_in_parameter_file,
                         string PS_CAN_in_postal_code,
                         string PS_CAN_in_country,
@@ -141,8 +141,8 @@ namespace StreetPerfect.Native
                         Byte[] PS_ARG_out_status_messages);
 
 
-        //[DllImport(_dll, EntryPoint = "StreetPerfectProcessAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.StdCall)]
-        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        //[DllImport(_dll, EntryPoint = "StreetPerfectProcessAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate System.IntPtr delegate_ProcessAddress(string PS_in_parameter_file,
                         string PS_in_function, // sub function name
                         string PS_ARG_IN_03,
@@ -171,8 +171,8 @@ namespace StreetPerfect.Native
                         Byte[] PS_ARG_OUT_26);
 
 
-        //[DllImport(_dll, EntryPoint = "StreetPerfectFetchAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.StdCall)]
-        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        //[DllImport(_dll, EntryPoint = "StreetPerfectFetchAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate System.IntPtr delegate_FetchAddress(string PS_ARG_in_parameter_file,
                         string PS_CAN_in_street_number,
                         string PS_CAN_in_unit_number,
@@ -186,8 +186,8 @@ namespace StreetPerfect.Native
                         Byte[] PS_ARG_out_status_messages);
 
 
-        //[DllImport(_dll, EntryPoint = "StreetPerfectFormatAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.StdCall)]
-        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        //[DllImport(_dll, EntryPoint = "StreetPerfectFormatAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate System.IntPtr delegate_FormatAddress(string PS_ARG_in_parameter_file,
                         string PS_CAN_in_address_line,
                         string PS_CAN_in_city,
@@ -203,8 +203,8 @@ namespace StreetPerfect.Native
                         Byte[] PS_ARG_out_status_messages);
 
 
-        //[DllImport(_dll, EntryPoint = "StreetPerfectParseAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.StdCall)]
-        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        //[DllImport(_dll, EntryPoint = "StreetPerfectParseAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate System.IntPtr delegate_ParseAddress(string PS_ARG_in_parameter_file,
                         string PS_CAN_in_address_line,
                         string PS_CAN_in_city,
@@ -240,8 +240,8 @@ namespace StreetPerfect.Native
 
 
 
-        //[DllImport(_dll, EntryPoint = "StreetPerfectSearchAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.StdCall)]
-        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        //[DllImport(_dll, EntryPoint = "StreetPerfectSearchAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate System.IntPtr delegate_SearchAddress(string PS_ARG_in_parameter_file,
                         string PS_CAN_in_address_line,
                         string PS_CAN_in_city,
@@ -253,8 +253,8 @@ namespace StreetPerfect.Native
                         Byte[] PS_ARG_out_status_messages);
 
 
-        //[DllImport(_dll, EntryPoint = "StreetPerfectValidateAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.StdCall)]
-        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Ansi)]
+        //[DllImport(_dll, EntryPoint = "StreetPerfectValidateAddress",CharSet = CharSet.Ansi, ExactSpelling = true,CallingConvention = CallingConvention.Cdecl)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         public delegate System.IntPtr delegate_ValidateAddress(string PS_ARG_in_parameter_file,
                         string PS_CAN_in_address_line,
                         string PS_CAN_in_city,
@@ -267,7 +267,7 @@ namespace StreetPerfect.Native
 
 
         // can specify each param type handling, which I don't seem to need as I guess simple types are obvious 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         public delegate System.IntPtr xxTQueryAddress(
                         [MarshalAs(UnmanagedType.LPStr)] string PS_ARG_in_parameter_file,
                         [MarshalAs(UnmanagedType.LPStr)] string PS_CAN_in_query_option,
@@ -358,7 +358,7 @@ namespace StreetPerfect.Native
 		//not used if using XPC client
 		[DllImport(_dll, EntryPoint = "StreetPerfectConnect",
             CharSet = CharSet.Ansi, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+            CallingConvention = CallingConvention.Cdecl)]
         public static extern System.IntPtr Connect(string PS_ARG_in_parameter_file,
                        Byte[] PS_ARG_out_status_flag,
                        Byte[] PS_ARG_out_status_messages);
@@ -367,7 +367,7 @@ namespace StreetPerfect.Native
         //not used if using XPC client
         [DllImport(_dll, EntryPoint = "StreetPerfectDisconnect",
             CharSet = CharSet.Ansi, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+            CallingConvention = CallingConvention.Cdecl)]
         public static extern System.IntPtr Disconnect(string PS_ARG_in_parameter_file,
                           Byte[] PS_ARG_out_status_flag,
                           Byte[] PS_ARG_out_status_messages);
@@ -375,7 +375,7 @@ namespace StreetPerfect.Native
 
         [DllImport(_dll, EntryPoint = "StreetPerfectCorrectAddress",
             CharSet = CharSet.Ansi, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+            CallingConvention = CallingConvention.Cdecl)]
         public static extern System.IntPtr CorrectAddress(string PS_ARG_in_parameter_file,
                 string PS_CAN_in_address_line,
                 string PS_CAN_in_city,
@@ -397,7 +397,7 @@ namespace StreetPerfect.Native
         // this opens a dialog - DON'T call in a web environment!
         [DllImport(_dll, EntryPoint = "StreetPerfectCaptureAddress",
             CharSet = CharSet.Ansi, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+            CallingConvention = CallingConvention.Cdecl)]
         public static extern System.IntPtr CaptureAddress(string PS_ARG_in_parameter_file,
                               string PS_CAN_in_postal_code,
                               string PS_CAN_in_country,
@@ -418,7 +418,7 @@ namespace StreetPerfect.Native
 
         [DllImport(_dll, EntryPoint = "StreetPerfectQueryAddress",
         CharSet = CharSet.Ansi, ExactSpelling = true,
-        CallingConvention = CallingConvention.StdCall)]
+        CallingConvention = CallingConvention.Cdecl)]
         public static extern System.IntPtr QueryAddress(string PS_ARG_in_parameter_file,
                             string PS_CAN_in_query_option,
                             string PS_CAN_in_address_line,
@@ -434,7 +434,7 @@ namespace StreetPerfect.Native
 
         [DllImport(_dll, EntryPoint = "StreetPerfectProcessAddress",
         CharSet = CharSet.Ansi, ExactSpelling = true,
-        CallingConvention = CallingConvention.StdCall)]
+        CallingConvention = CallingConvention.Cdecl)]
         public static extern System.IntPtr ProcessAddress(string PS_in_parameter_file,
                                string PS_in_function, // sub function name
                                string PS_ARG_IN_03,
@@ -465,7 +465,7 @@ namespace StreetPerfect.Native
 
         [DllImport(_dll, EntryPoint = "StreetPerfectFetchAddress",
             CharSet = CharSet.Ansi, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+            CallingConvention = CallingConvention.Cdecl)]
 
         public static extern int FetchAddress(string PS_ARG_in_parameter_file,
                             string PS_CAN_in_street_number,
@@ -482,7 +482,7 @@ namespace StreetPerfect.Native
 
         [DllImport(_dll, EntryPoint = "StreetPerfectFormatAddress",
             CharSet = CharSet.Ansi, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+            CallingConvention = CallingConvention.Cdecl)]
         public static extern int FormatAddress(string PS_ARG_in_parameter_file,
                              string PS_CAN_in_address_line,
                              string PS_CAN_in_city,
@@ -500,7 +500,7 @@ namespace StreetPerfect.Native
 
         [DllImport(_dll, EntryPoint = "StreetPerfectParseAddress",
             CharSet = CharSet.Ansi, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+            CallingConvention = CallingConvention.Cdecl)]
         public static extern int ParseAddress(string PS_ARG_in_parameter_file,
                             string PS_CAN_in_address_line,
                             string PS_CAN_in_city,
@@ -538,7 +538,7 @@ namespace StreetPerfect.Native
 
         [DllImport(_dll, EntryPoint = "StreetPerfectSearchAddress",
             CharSet = CharSet.Ansi, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+            CallingConvention = CallingConvention.Cdecl)]
         public static extern int SearchAddress(string PS_ARG_in_parameter_file,
                              string PS_CAN_in_address_line,
                              string PS_CAN_in_city,
@@ -552,7 +552,7 @@ namespace StreetPerfect.Native
 
         [DllImport(_dll, EntryPoint = "StreetPerfectValidateAddress",
             CharSet = CharSet.Ansi, ExactSpelling = true,
-            CallingConvention = CallingConvention.StdCall)]
+            CallingConvention = CallingConvention.Cdecl)]
         public static extern int ValidateAddress(string PS_ARG_in_parameter_file,
                                string PS_CAN_in_address_line,
                                string PS_CAN_in_city,
