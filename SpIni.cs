@@ -63,14 +63,16 @@ namespace StreetPerfect.Native
 		public string lastError { get; set; } = "";
 		public string fileName { get; set; }
 
-
-		public SpIni(string filename)
-		{
-			fileName = filename;
-			_Settings = new Dictionary<SpIniSection, Dictionary<string, string>>();
+        public SpIni(IConfiguration config = null)
+        {
+            if (config != null)
+            {
+                fileName = config.GetSection("AppSettings").GetValue<string>("SPBatchDriverIni");
+            }
+            _Settings = new Dictionary<SpIniSection, Dictionary<string, string>>();
 			_re_sect = new Regex(@"\[(.*?)\]", RegexOptions.Compiled);
 			_re_keyval = new Regex(@"(.*)?=(.*)", RegexOptions.Compiled);
-		}
+        }
 
 		public bool Check()
 		{
@@ -94,8 +96,8 @@ namespace StreetPerfect.Native
 		// factory helper for non injection
 		public static ISpIni Load(string filename)
 		{
-			SpIni ini = new SpIni(filename);
-			ini.Read();
+            SpIni ini = new SpIni();
+			ini.Read(filename);
 			return ini;
 		}
 
@@ -136,9 +138,18 @@ namespace StreetPerfect.Native
 			return def_val;
 		}
 
-		private void Read()
+		private void Read(string filename = null)
 		{
-			lock (_Settings)
+            if (filename != null)
+            {
+                fileName = filename;
+            }
+            else if (fileName  == null)
+            {
+                throw new ArgumentNullException("fileName");
+            }
+            
+            lock (_Settings)
 			{
 				int line_num = 1;
 				try
