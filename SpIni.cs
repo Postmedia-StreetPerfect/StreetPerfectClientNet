@@ -63,15 +63,14 @@ namespace StreetPerfect.Native
 		public string lastError { get; set; } = "";
 		public string fileName { get; set; }
 
-        public SpIni(IConfiguration config = null)
+        public SpIni(string ini_filename)
         {
-            if (config != null)
-            {
-                fileName = config.GetSection("AppSettings").GetValue<string>("SPBatchDriverIni");
-            }
+            if (String.IsNullOrEmpty(ini_filename)) 
+                throw new ArgumentNullException(nameof(ini_filename));
+            fileName = ini_filename;
             _Settings = new Dictionary<SpIniSection, Dictionary<string, string>>();
-			_re_sect = new Regex(@"\[(.*?)\]", RegexOptions.Compiled);
-			_re_keyval = new Regex(@"(.*)?=(.*)", RegexOptions.Compiled);
+		    _re_sect = new Regex(@"\[(.*?)\]", RegexOptions.Compiled);
+		    _re_keyval = new Regex(@"(.*)?=(.*)", RegexOptions.Compiled);
         }
 
 		public bool Check()
