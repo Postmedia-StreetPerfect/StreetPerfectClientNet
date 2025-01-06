@@ -35,7 +35,8 @@ namespace StreetPerfect.Native
 		string lastError { get; }
 		string fileName { get; }
 
-	}
+		void LoadIni(string filename);
+    }
 
 
 
@@ -63,11 +64,9 @@ namespace StreetPerfect.Native
 		public string lastError { get; set; } = "";
 		public string fileName { get; set; }
 
-        public SpIni(string ini_filename)
+        public SpIni()
         {
-            if (String.IsNullOrEmpty(ini_filename)) 
-                throw new ArgumentNullException(nameof(ini_filename));
-            fileName = ini_filename;
+            fileName = null;
             _Settings = new Dictionary<SpIniSection, Dictionary<string, string>>();
 		    _re_sect = new Regex(@"\[(.*?)\]", RegexOptions.Compiled);
 		    _re_keyval = new Regex(@"(.*)?=(.*)", RegexOptions.Compiled);
@@ -100,7 +99,15 @@ namespace StreetPerfect.Native
 			return ini;
 		}
 
-		public string Get(SpIniSection sect, string param, string def_val = null)
+		public void LoadIni(string filename)
+		{
+			if (String.IsNullOrWhiteSpace(fileName))
+                throw new ArgumentNullException("filename");
+	
+			Read(filename.Trim());
+        }
+
+        public string Get(SpIniSection sect, string param, string def_val = null)
 		{
 			lock (_Settings)
 			{
