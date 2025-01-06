@@ -108,6 +108,7 @@ namespace StreetPerfect.Controllers
 		}
 
 
+#if USE_FORM_UPLOAD
 		/// <summary>
 		/// Upload batch input data.
 		/// </summary>
@@ -151,6 +152,7 @@ namespace StreetPerfect.Controllers
 				return StatusCode(502, new { err = ex.Message });
 			}
 		}
+#endif
 
 		/* this is stupid
 		/// <summary>
