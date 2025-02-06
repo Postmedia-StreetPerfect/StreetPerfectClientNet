@@ -80,6 +80,7 @@ namespace StreetPerfect.Native
 
         public Client(string connectionString, bool debug = false)
 		{
+            ArgumentException.ThrowIfNullOrEmpty(connectionString);
 			_connection_string = connectionString.Trim();
 			_Debug = debug;
 		}
