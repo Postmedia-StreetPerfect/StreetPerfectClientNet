@@ -2,7 +2,7 @@
 C# XPC Client for StreetPerfect
 
 Note that this client access does not support authentication or encryption and does not support the Typeahead API.
-However, there is an [HTTP client](https://github.com/Postmedia-StreetPerfect/StreetPerfectHttpClientNet) available that uses the new HTTP frontend and supports the typeahead API. Both clients use the same interface and models. The HTTP client can also be used to access the StreetPerfect SaS site.
+However, there is an [HTTP client](https://github.com/Postmedia-StreetPerfect/StreetPerfectHttpClientNet) available that uses the new HTTP frontend and supports the typeahead API. Both clients use the same interface and models. The HTTP client can also be used to access the StreetPerfect SaaS site.
 
 The easiest way to use the C# XPC client is to add it as a singleton service in your ConfigureServices() aspnet function.
 
