@@ -127,13 +127,20 @@ namespace StreetPerfect.Native
 				}
 			}
 
+			var status = PS_ARG_out_status_flag.ToString();
+			var msg = PS_ARG_out_status_messages.ToString();
 
-			var ret = new GetInfoResponse()
+            if (msg.Contains("[707:707]"))
+			{
+                msg = $"{msg} -- it's possible the [Server Files/StreetPerfectAddressAccuracy.Ini] is missing your User License key";
+            }
+
+            var ret = new GetInfoResponse()
 			{
 				//info_old = msg_list,
 				info = msg_dict,
-				status_flag = PS_ARG_out_status_flag.ToString(),
-				status_messages = PS_ARG_out_status_messages.ToString()
+				status_flag = status,
+				status_messages = msg
 			};
 
             //			var msg = $"CSharpClientVersionXPC:  v{Version}";
