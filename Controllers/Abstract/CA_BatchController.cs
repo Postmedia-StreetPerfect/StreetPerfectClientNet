@@ -341,13 +341,16 @@ namespace StreetPerfect.Controllers
 		[HttpPost]
 		public async Task<ActionResult<BatchStatus>> BatchRun(BatchConfig config)
 		{
-			var user_id = GetUserId().ToString();
-			var ret = new BatchStatus();
+            var userIds = GetUserIDs(User);
+            var user_id = userIds.UserId.ToString();
+            var userAwsAccountId = userIds.AwsAccountId;
+            
+            var ret = new BatchStatus();
 			try
 			{
 				CheckBatchConfig();
 
-				ret = await _batchDriver.BatchRun(user_id, config);
+				ret = await _batchDriver.BatchRun(user_id, userAwsAccountId, config);
 
 				EndpointSuccessful();
 				return ret;
