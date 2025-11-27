@@ -343,14 +343,14 @@ namespace StreetPerfect.Controllers
 		{
             var userIds = GetUserIDs(User);
             var user_id = userIds.UserId.ToString();
-            var userAwsAccountId = userIds.AwsAccountId;
-            
+            var account_id = userIds.AccountId.ToString();
+
             var ret = new BatchStatus();
 			try
 			{
 				CheckBatchConfig();
 
-				ret = await _batchDriver.BatchRun(user_id, userAwsAccountId, config);
+				ret = await _batchDriver.BatchRun(user_id, account_id, config);
 
 				EndpointSuccessful();
 				return ret;
