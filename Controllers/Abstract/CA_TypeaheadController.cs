@@ -93,6 +93,27 @@ namespace StreetPerfect.Controllers
 			}
 		}
 
+
+        [ApiExplorerSettings(IgnoreApi = true)]
+        [HttpGet("benchmark")]
+        public ActionResult<TypeaheadBenchmarkResponse> benchmark()
+        {
+            try
+            {
+                var resp = _SpCaInterface.Benchmark();
+                //EndpointSuccessful();
+                return resp;
+            }
+            catch (Exception ex)
+            {
+                //EndpointException(ex, req);
+                _logger.LogError("benchmark error, {m}", ex.Message);
+                return StatusCode(502, new { err = ex.Message });
+            }
+        }
+
+
+
         [ApiExplorerSettings(IgnoreApi = true)]
         [HttpPost("city")]
         public ActionResult<caTypeaheadCityResponse> ca_city_search([FromBody] caTypeaheadCityRequest req)
