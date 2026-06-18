@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,35 +25,45 @@ namespace StreetPerfect.Controllers
 	public abstract class _CA_AddressProcessingController : StreetPerfectBaseController
 	{
 		protected readonly IStreetPerfectClient _Client;
-
-		public _CA_AddressProcessingController(IStreetPerfectClient Client, ILogger logger) : base(logger)
+        private Regex _preprocAddrLine = new Regex(@"^\s*(\d+)\s*[\\/]\s*(\d+\s+.*)$", RegexOptions.Compiled);
+        public _CA_AddressProcessingController(IStreetPerfectClient Client, ILogger logger) : base(logger)
 		{
 			_Client = Client;
 		}
 
+        protected void PreprocessRequest(caAddressRequest req)
+        {
+            if (req != null && !string.IsNullOrEmpty(req.address_line))
+            {
+                // check for ^dddd/\\dddd xxxxx  pattern
+                // change to dddd-dddd xxxx
+                req.address_line = _preprocAddrLine.Replace(req.address_line, "$1-$2");
+            }
+        }
 
-		// POST: api/ca/correction
-		/// <summary>
-		/// 
-		/// Run a correction on a Canadian address
-		/// 
-		/// </summary>
-		/// <remarks>
-		/// Sample request:
-		///
-		///     POST /api/ca/correction
-		///
-		/// </remarks>
-		/// <param name="req">A caAddressRequest object</param>
-		/// <response code="200">Returns caCorrectionResponse</response>
-		/// <response code="400">If invalid parameter</response>   
-		/// <response code="502">StreetPerfect API error</response>   
-		[HttpPost("correction")]
+        // POST: api/ca/correction
+        /// <summary>
+        /// 
+        /// Run a correction on a Canadian address
+        /// 
+        /// </summary>
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     POST /api/ca/correction
+        ///
+        /// </remarks>
+        /// <param name="req">A caAddressRequest object</param>
+        /// <response code="200">Returns caCorrectionResponse</response>
+        /// <response code="400">If invalid parameter</response>   
+        /// <response code="502">StreetPerfect API error</response>   
+        [HttpPost("correction")]
 		public async Task<ActionResult<caCorrectionResponse>> ca_correct([FromBody] caAddressRequest req)
 		{
 			try
 			{
-				var ret = await _Client.caProcessCorrectionAsync(req);
+                //PreprocessRequest(req);
+                var ret = await _Client.caProcessCorrectionAsync(req);
 				EndpointSuccessful();
 				return ret;
 			}

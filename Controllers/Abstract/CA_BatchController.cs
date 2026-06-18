@@ -281,6 +281,8 @@ namespace StreetPerfect.Controllers
 		/// </summary>
 		/// <remarks>
 		/// id must be 'input', 'output' or 'all' 
+        /// 
+        /// *Uploaded and generated data is retained for 30 days unless deleted by this endpoint first.
 		/// </remarks>
 		/// <returns></returns>
 		/// 
